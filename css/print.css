@@ -1,0 +1,45 @@
+@media print {
+  .site-header,
+  .nav-toggle,
+  .nav,
+  .hero__visual,
+  .hero__cta,
+  .back-to-top,
+  .contact-form,
+  .projects-more-wrap,
+  .skip-link {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+  }
+
+  .section,
+  .section--alt {
+    background: #fff;
+    padding-block: 1rem;
+    break-inside: avoid;
+  }
+
+  .section__title,
+  .hero__title,
+  .timeline-item__role,
+  .project-card__title {
+    color: #111;
+  }
+
+  a {
+    color: #111;
+    text-decoration: underline;
+  }
+
+  .tag,
+  .timeline-item__card,
+  .project-card,
+  .skill-category {
+    border: 1px solid #ccc;
+    box-shadow: none;
+  }
+}
