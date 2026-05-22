@@ -3,3 +3,8 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+_deploy-check.txt
+_github-push-log.txt
+_push-out.txt
+_push-status.txt
+_gh-path.txt
