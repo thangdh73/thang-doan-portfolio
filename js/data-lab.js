@@ -31,29 +31,7 @@
   let numericColumns = [];
   let chartMode = "crossplot";
   let plotlyLoadPromise = null;
-
-  function ensurePlotly() {
-    if (window.Plotly) return Promise.resolve();
-    if (!plotlyLoadPromise) {
-      if (els.plotLoading) els.plotLoading.hidden = false;
-      plotlyLoadPromise = new Promise(function (resolve, reject) {
-        const s = document.createElement("script");
-        s.src =
-          "https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js";
-        s.async = true;
-        s.onload = function () {
-          if (els.plotLoading) els.plotLoading.hidden = true;
-          resolve();
-        };
-        s.onerror = function () {
-          if (els.plotLoading) els.plotLoading.hidden = true;
-          reject(new Error("Could not load chart library"));
-        };
-        document.head.appendChild(s);
-      });
-    }
-    return plotlyLoadPromise;
-  }
+  let plotLoadingTimer = null;
 
   const els = {
     uploadZone: document.getElementById("upload-zone"),
@@ -92,6 +70,73 @@
     panelHistogram: document.getElementById("panel-histogram"),
     panelVolume: document.getElementById("panel-volume"),
   };
+
+  function hidePlotLoading() {
+    if (plotLoadingTimer) {
+      clearTimeout(plotLoadingTimer);
+      plotLoadingTimer = null;
+    }
+    if (els.plotLoading) {
+      els.plotLoading.classList.remove("is-loading");
+      els.plotLoading.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  function showPlotLoading() {
+    if (!els.plotLoading || window.Plotly) return;
+    if (plotLoadingTimer) return;
+    plotLoadingTimer = setTimeout(function () {
+      plotLoadingTimer = null;
+      if (!window.Plotly && els.plotLoading) {
+        els.plotLoading.classList.add("is-loading");
+        els.plotLoading.setAttribute("aria-hidden", "false");
+      }
+    }, 350);
+  }
+
+  function ensurePlotly() {
+    if (window.Plotly) {
+      hidePlotLoading();
+      return Promise.resolve();
+    }
+    if (!plotlyLoadPromise) {
+      showPlotLoading();
+      plotlyLoadPromise = new Promise(function (resolve, reject) {
+        let poll;
+        function fail(err) {
+          if (poll) clearInterval(poll);
+          clearTimeout(deadline);
+          plotlyLoadPromise = null;
+          hidePlotLoading();
+          reject(err);
+        }
+        const deadline = setTimeout(function () {
+          fail(new Error("Chart library load timed out"));
+        }, 20000);
+        poll = setInterval(function () {
+          if (!window.Plotly) return;
+          clearInterval(poll);
+          clearTimeout(deadline);
+          hidePlotLoading();
+          resolve();
+        }, 50);
+        const existing = document.querySelector(
+          'script[src*="plotly.js-dist-min"]'
+        );
+        if (!existing) {
+          const s = document.createElement("script");
+          s.src =
+            "https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js";
+          s.async = true;
+          s.onerror = function () {
+            fail(new Error("Could not load chart library"));
+          };
+          document.head.appendChild(s);
+        }
+      });
+    }
+    return plotlyLoadPromise;
+  }
 
   function showMessage(text, type) {
     if (!els.message) return;
@@ -524,7 +569,11 @@
         if (chartMode === "histogram") return buildHistogram();
         return buildCrossplot();
       })
+      .then(function () {
+        hidePlotLoading();
+      })
       .catch(function () {
+        hidePlotLoading();
         showMessage("Chart library failed to load. Check your connection.", "error");
       });
   }
