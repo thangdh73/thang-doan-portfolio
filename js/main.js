@@ -285,6 +285,17 @@
     });
   }
 
+  /* Technical Corner — show images when src is set */
+  document.querySelectorAll(".technical-card__img").forEach(function (img) {
+    const src = img.getAttribute("src");
+    if (src && src.trim() !== "") {
+      img.hidden = false;
+      img.addEventListener("error", function () {
+        img.hidden = true;
+      });
+    }
+  });
+
   /* Expandable additional projects */
   const projectsToggle = document.getElementById("projects-toggle");
   const projectsMore = document.getElementById("projects-more");
