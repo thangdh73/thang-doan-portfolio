@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Upload CSV data and build crossplots and histograms — Thang Doan Data Analysis Lab">
+  <meta name="description" content="Upload CSV data — crossplots, histograms, and STOIIP calculator. Thang Doan Data Analysis Lab.">
   <title>Data Analysis Lab | Thang Doan</title>
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,95 +15,114 @@
   <meta name="theme-color" content="#0f1419">
 </head>
 <body class="chart-mode-crossplot">
+  <a href="#lab-main" class="skip-link">Skip to tool</a>
+
   <header class="lab-header">
-    <div class="container">
-      <a href="../index.html#technical" class="lab-header__title">← <span>Data Analysis Lab</span></a>
+    <div class="container lab-header__inner">
+      <a href="../index.html#technical" class="lab-header__back">← Technical Corner</a>
+      <nav class="lab-header__nav" aria-label="Lab shortcuts">
+        <a href="?mode=crossplot">Crossplot</a>
+        <a href="?mode=histogram">Histogram</a>
+        <a href="?mode=volume">Volume</a>
+      </nav>
       <a href="../index.html" class="btn btn--outline btn--small">Portfolio</a>
     </div>
   </header>
 
-  <main class="lab-main">
+  <main id="lab-main" class="lab-main">
     <div class="container">
-      <p class="lab-intro">
-        Upload a <strong>CSV</strong> file (well logs, property tables, model exports). Data stays in your browser — nothing is sent to a server.
-        Build <strong>crossplots</strong> or <strong>histograms</strong> and export plots as PNG from the chart toolbar.
-      </p>
+      <header class="lab-page-header">
+        <h1 class="lab-page-header__title">Data Analysis Lab</h1>
+        <p class="lab-intro">
+          Client-side analytics for geoscience CSV and Excel files — <strong>no upload to any server</strong>.
+          Export charts via the camera icon on each plot.
+        </p>
+      </header>
 
       <div class="lab-grid">
-        <aside class="lab-panel">
-          <p class="lab-panel__title">1. Data</p>
-          <div id="upload-zone" class="upload-zone" role="button" tabindex="0" aria-label="Upload CSV file">
-            <input type="file" id="file-input" accept=".csv,text/csv" />
-            <strong>Upload CSV</strong>
-            <p class="upload-zone__hint">or drag and drop here</p>
+        <aside class="lab-sidebar">
+          <div class="lab-panel">
+            <p class="lab-panel__title">1 · Data</p>
+            <div id="upload-zone" class="upload-zone" role="button" tabindex="0" aria-label="Upload CSV or Excel file. Press Enter to browse.">
+              <input type="file" id="file-input" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" />
+              <strong>Upload CSV or Excel</strong>
+              <p class="upload-zone__hint">.csv · .xlsx — drag &amp; drop or click</p>
+            </div>
+            <p id="file-info" class="file-info"></p>
+            <a href="../assets/technical/sample-well-data.csv" class="lab-sample-link" download>Download sample CSV</a>
           </div>
-          <p id="file-info" class="file-info"></p>
 
-          <div id="lab-controls" class="lab-controls">
-            <p class="lab-panel__title">2. Chart</p>
-            <div class="chart-type-tabs" role="tablist">
-              <button type="button" id="tab-crossplot" class="is-active" role="tab">Crossplot</button>
-              <button type="button" id="tab-histogram" role="tab">Histogram</button>
-              <button type="button" id="tab-volume" role="tab">Volume</button>
+          <div id="lab-controls" class="lab-panel lab-panel--controls">
+            <p class="lab-panel__title">2 · Analysis</p>
+            <div class="chart-type-tabs" role="tablist" aria-label="Chart type">
+              <button type="button" id="tab-crossplot" class="is-active" role="tab" aria-selected="true" aria-controls="panel-crossplot">Crossplot</button>
+              <button type="button" id="tab-histogram" role="tab" aria-selected="false" aria-controls="panel-histogram">Histogram</button>
+              <button type="button" id="tab-volume" role="tab" aria-selected="false" aria-controls="panel-volume">Volume</button>
             </div>
 
-            <div class="crossplot-only">
-              <div>
-                <label for="col-x">X axis</label>
-                <select id="col-x"></select>
-              </div>
-              <div>
-                <label for="col-y">Y axis</label>
-                <select id="col-y"></select>
-              </div>
-              <div>
-                <label for="col-color">Color by (optional)</label>
-                <select id="col-color"></select>
-              </div>
-              <div class="checkbox-row">
-                <input type="checkbox" id="log-x" />
-                <label for="log-x">Log scale X</label>
-              </div>
-              <div class="checkbox-row">
-                <input type="checkbox" id="log-y" />
-                <label for="log-y">Log scale Y</label>
-              </div>
-            </div>
-
-            <div class="histogram-only">
-              <div>
-                <label for="col-hist">Column</label>
-                <select id="col-hist"></select>
-              </div>
-              <div>
-                <label for="bins">Number of bins</label>
-                <input type="number" id="bins" min="5" max="80" value="25" />
+            <div id="panel-crossplot" class="crossplot-only" role="tabpanel">
+              <div class="lab-controls">
+                <div>
+                  <label for="col-x">X axis</label>
+                  <select id="col-x"></select>
+                </div>
+                <div>
+                  <label for="col-y">Y axis</label>
+                  <select id="col-y"></select>
+                </div>
+                <div>
+                  <label for="col-color">Color by (optional)</label>
+                  <select id="col-color"></select>
+                </div>
+                <div class="checkbox-row">
+                  <input type="checkbox" id="log-x" />
+                  <label for="log-x">Log X</label>
+                </div>
+                <div class="checkbox-row">
+                  <input type="checkbox" id="log-y" />
+                  <label for="log-y">Log Y</label>
+                </div>
               </div>
             </div>
 
-            <div class="volume-only">
-              <p style="font-size:0.8125rem;color:#9aa5b4;margin-bottom:0.5rem">Deterministic STOIIP (oil): V = A × h × φ × (1 − S<sub>w</sub>) / B<sub>o</sub></p>
-              <div>
-                <label for="vol-area">Area (km²)</label>
-                <input type="number" id="vol-area" step="any" min="0" value="10" />
+            <div id="panel-histogram" class="histogram-only" role="tabpanel" hidden>
+              <div class="lab-controls">
+                <div>
+                  <label for="col-hist">Column</label>
+                  <select id="col-hist"></select>
+                </div>
+                <div>
+                  <label for="bins">Bins</label>
+                  <input type="number" id="bins" min="5" max="80" value="25" />
+                </div>
               </div>
-              <div>
-                <label for="vol-pay">Net pay h (m)</label>
-                <input type="number" id="vol-pay" step="any" min="0" value="25" />
+            </div>
+
+            <div id="panel-volume" class="volume-only" role="tabpanel" hidden>
+              <p class="volume-formula">STOIIP: V = A × h × φ × (1 − S<sub>w</sub>) / B<sub>o</sub></p>
+              <div class="lab-controls">
+                <div>
+                  <label for="vol-area">Area (km²)</label>
+                  <input type="number" id="vol-area" step="any" min="0" value="10" />
+                </div>
+                <div>
+                  <label for="vol-pay">Net pay h (m)</label>
+                  <input type="number" id="vol-pay" step="any" min="0" value="25" />
+                </div>
+                <div>
+                  <label for="vol-phi">Porosity φ</label>
+                  <input type="number" id="vol-phi" step="any" min="0" max="1" value="0.18" />
+                </div>
+                <div>
+                  <label for="vol-sw">Water sat. S<sub>w</sub></label>
+                  <input type="number" id="vol-sw" step="any" min="0" max="1" value="0.28" />
+                </div>
+                <div>
+                  <label for="vol-bo">FVF B<sub>o</sub> (rb/stb)</label>
+                  <input type="number" id="vol-bo" step="any" min="0.1" value="1.25" />
+                </div>
               </div>
-              <div>
-                <label for="vol-phi">Porosity φ (fraction)</label>
-                <input type="number" id="vol-phi" step="any" min="0" max="1" value="0.18" />
-              </div>
-              <div>
-                <label for="vol-sw">Water saturation S<sub>w</sub></label>
-                <input type="number" id="vol-sw" step="any" min="0" max="1" value="0.28" />
-              </div>
-              <div>
-                <label for="vol-bo">Oil FVF B<sub>o</sub> (rb/stb)</label>
-                <input type="number" id="vol-bo" step="any" min="0.1" value="1.25" />
-              </div>
-              <button type="button" id="vol-calc-btn" class="btn btn--primary btn--small" style="width:100%;margin-top:0.5rem">Calculate STOIIP</button>
+              <button type="button" id="vol-calc-btn" class="btn btn--primary btn--small lab-btn-full">Calculate STOIIP</button>
               <div id="volume-result" class="volume-result" hidden>
                 <div class="volume-result__value" id="volume-stoiip"></div>
                 <div class="volume-result__detail" id="volume-detail"></div>
@@ -121,25 +140,26 @@
         </aside>
 
         <div class="lab-workspace">
-          <div id="lab-message" class="lab-message" role="status"></div>
+          <div id="lab-message" class="lab-message" role="status" aria-live="polite"></div>
 
-          <div class="lab-panel">
-            <p class="lab-panel__title">Preview</p>
+          <details class="lab-panel lab-preview-panel" open>
+            <summary class="lab-panel__title lab-preview-panel__summary">Data preview</summary>
             <div id="data-preview" class="data-preview">
-              <p style="padding:1rem;color:#9aa5b4;font-size:0.875rem">Upload a CSV or click “Sample data” to begin.</p>
+              <p class="data-preview__empty">Upload a CSV or click <strong>Sample data</strong> to start.</p>
             </div>
-          </div>
+          </details>
 
           <div class="plot-container">
-            <div id="plot" style="min-height:400px" aria-label="Chart output"></div>
+            <div id="plot-loading" class="plot-loading" hidden>Loading chart engine…</div>
+            <div id="plot" class="plot-area" aria-label="Chart output"></div>
           </div>
         </div>
       </div>
     </div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
-  <script src="../js/data-lab.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <script src="../js/data-lab.js" defer></script>
 </body>
 </html>

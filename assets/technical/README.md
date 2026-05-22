@@ -1,44 +1,29 @@
-# Technical Corner — add your plots & demos
+# Technical Corner assets
 
 ## Data Analysis Lab
 
-Interactive tool: **`tools/data-lab.html`** — upload CSV, crossplot, histogram.
+- **Tool:** `tools/data-lab.html`
+- **Sample CSV:** `sample-well-data.csv` — use for testing crossplots (Porosity vs Permeability)
+- **Excel:** `.xlsx` / `.xls` supported (first worksheet)
+- **Gallery images:** `crossplot.svg`, `histogram.svg`, `stochastic-volume.svg` (replace with your PNGs when ready)
 
-Sample CSV: `sample-well-data.csv` (included in this folder).
+### URL shortcuts
 
-# Screenshots for portfolio cards
+| Link | Opens |
+|------|--------|
+| `tools/data-lab.html?mode=crossplot` | Crossplot tab |
+| `tools/data-lab.html?mode=histogram` | Histogram tab |
+| `tools/data-lab.html?mode=volume` | STOIIP calculator |
+| `tools/data-lab.html?mode=crossplot&sample=1` | Sample data + crossplot |
 
-Save screenshots (PNG or JPG) here, then link them in `index.html` in the **Technical Corner** section.
+## Case study screenshots (optional)
 
-## Suggested filenames
+Add PNG files here for the collapsible gallery on the portfolio page:
 
-| File | Card |
-|------|------|
-| `stochastic-volume.png` | Stochastic volume calculation |
-| `deterministic-volume.png` | Deterministic volume calculation |
-| `crossplot.png` | Crossplot analysis |
-| `histogram.png` | Histogram & distribution plots |
-| `data-analysis.png` | Data mining / ML |
+| File | Subject |
+|------|---------|
+| `crossplot.png` | Crossplot / rock typing |
+| `histogram.png` | Histogram / QC |
+| `stochastic-volume.png` | Stochastic volumetrics |
 
-## How to enable an image
-
-In `index.html`, find the card and update the `<img>` tag, for example:
-
-```html
-<img src="assets/technical/crossplot.png" alt="Porosity-permeability crossplot" class="technical-card__img">
-```
-
-Remove the `hidden` attribute from that `<img>` when `src` is set.
-
-## Optional: link to a notebook or PDF
-
-Add below the tags in a card:
-
-```html
-<a href="assets/technical/my-workflow.pdf" class="btn btn--outline" style="margin-top:0.5rem">View workflow (PDF)</a>
-```
-
-## Tips
-
-- Use landscape screenshots (~1200×750 px) for best fit.
-- Avoid confidential client data — use anonymized or synthetic examples.
+To display: add `<img>` tags in the gallery section of `index.html` when ready.

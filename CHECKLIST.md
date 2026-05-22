@@ -1,25 +1,27 @@
 # Publish checklist
 
-## Delivered — complete
+## Plan implementation — complete
 
-- [x] Name: Thang Doan
-- [x] All sections: Hero, About, Skills, Experience, Projects, Education, Achievements, Contact
-- [x] CV-accurate jobs, projects, awards, publication
+- [x] Name: Thang Doan (all user-facing sections)
+- [x] Hero: title, tagline, CTAs (Contact, Download CV, View Projects)
+- [x] About, Skills, Experience, Projects, Education, Achievements, Contact
+- [x] Technical Corner + Data Analysis Lab (beyond original plan)
+- [x] CV-accurate jobs, projects, awards, publication (H.D. Thang / LEAP Energy)
+- [x] No invented certifications
+- [x] Responsive layout, accessibility, reduced-motion
+- [x] `js/site-config.js`, `README.md`, deploy configs
+- [x] Git repository initialized
+
+## Contact (configured)
+
 - [x] Email: thangdh73@gmail.com
 - [x] LinkedIn: linkedin.com/in/thangdoan73
-- [x] Auto-updating experience years (1997 / 2000 start years)
-- [x] Responsive layout, accessibility, favicon, 404, print CSS
-- [x] Deploy configs + `start-server.ps1`
-
-## Optional before / after launch
-
-- [ ] Add `assets/cv.pdf`
-- [ ] Phone and location in `js/site-config.js`
-- [ ] `siteUrl` in `js/site-config.js` after deploy
-- [ ] Graduation year in Education (`index.html`)
-- [ ] Certifications when available
-- [ ] Professional photo (optional)
+- [ ] Phone and location in `js/site-config.js` (optional)
+- [ ] Add `assets/cv.pdf` when ready
+- [ ] Set `siteUrl` in `js/site-config.js` after Netlify deploy
+- [ ] Graduation year in Education (optional)
+- [ ] Professional photo in hero (optional)
 
 ## Deploy
 
-See [DEPLOY.md](DEPLOY.md).
+See [DEPLOY-FREE.md](DEPLOY-FREE.md) or [README.md](README.md).

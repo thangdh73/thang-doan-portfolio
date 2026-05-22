@@ -57,9 +57,10 @@ Import the repo; framework preset: **Other**; output directory: `.` (root).
 
 ```
 thang-doan-portfolio/
-├── index.html
+├── index.html              # Portfolio (all CV sections)
+├── tools/data-lab.html     # CSV/Excel analytics lab
 ├── 404.html
-├── start-server.ps1    ← local preview (Windows)
+├── start-server.ps1
 ├── netlify.toml
 ├── vercel.json
 ├── css/
@@ -67,15 +68,18 @@ thang-doan-portfolio/
 │   ├── base.css
 │   ├── layout.css
 │   ├── components.css
+│   ├── data-lab.css
 │   └── print.css
 ├── js/
-│   ├── site-config.js  ← edit contact details here
-│   └── main.js
+│   ├── site-config.js    ← contact, career years
+│   ├── main.js
+│   └── data-lab.js
 ├── assets/
 │   ├── favicon.svg
-│   └── cv.pdf          ← add your CV here
+│   ├── cv.pdf            ← add your CV here
+│   └── technical/        # sample CSV + chart images
 ├── CHECKLIST.md
-├── DEPLOY.md
+├── DEPLOY-FREE.md
 └── README.md
 ```
 

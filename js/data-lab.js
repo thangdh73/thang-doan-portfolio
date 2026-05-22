@@ -30,6 +30,30 @@
   let columns = [];
   let numericColumns = [];
   let chartMode = "crossplot";
+  let plotlyLoadPromise = null;
+
+  function ensurePlotly() {
+    if (window.Plotly) return Promise.resolve();
+    if (!plotlyLoadPromise) {
+      if (els.plotLoading) els.plotLoading.hidden = false;
+      plotlyLoadPromise = new Promise(function (resolve, reject) {
+        const s = document.createElement("script");
+        s.src =
+          "https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js";
+        s.async = true;
+        s.onload = function () {
+          if (els.plotLoading) els.plotLoading.hidden = true;
+          resolve();
+        };
+        s.onerror = function () {
+          if (els.plotLoading) els.plotLoading.hidden = true;
+          reject(new Error("Could not load chart library"));
+        };
+        document.head.appendChild(s);
+      });
+    }
+    return plotlyLoadPromise;
+  }
 
   const els = {
     uploadZone: document.getElementById("upload-zone"),
@@ -63,6 +87,10 @@
     volumeStoiip: document.getElementById("volume-stoiip"),
     volumeDetail: document.getElementById("volume-detail"),
     chartOnlyActions: document.querySelector(".chart-only-actions"),
+    plotLoading: document.getElementById("plot-loading"),
+    panelCrossplot: document.getElementById("panel-crossplot"),
+    panelHistogram: document.getElementById("panel-histogram"),
+    panelVolume: document.getElementById("panel-volume"),
   };
 
   function showMessage(text, type) {
@@ -203,7 +231,7 @@
     html += "</tbody></table>";
     if (rawRows.length > maxRows) {
       html +=
-        '<p style="padding:0.5rem;font-size:0.75rem;color:#9aa5b4">Showing ' +
+        '<p class="data-preview__more">Showing ' +
         maxRows +
         " of " +
         rawRows.length +
@@ -265,6 +293,55 @@
     buildPlot();
   }
 
+  function isExcelFile(file) {
+    const name = (file.name || "").toLowerCase();
+    return name.endsWith(".xlsx") || name.endsWith(".xls");
+  }
+
+  function parseXlsxFile(file) {
+    if (typeof XLSX === "undefined") {
+      showMessage("Excel library not loaded. Check your internet connection.", "error");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        const workbook = XLSX.read(e.target.result, { type: "array" });
+        const sheetName = workbook.SheetNames[0];
+        if (!sheetName) {
+          showMessage("Excel file has no sheets.", "error");
+          return;
+        }
+        const sheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(sheet, {
+          header: 1,
+          defval: "",
+          raw: false,
+        });
+        const parsed = detectColumns(rows);
+        if (!parsed.headers.length) {
+          showMessage("Could not read column headers from Excel.", "error");
+          return;
+        }
+        if (els.fileInfo) {
+          els.fileInfo.innerHTML =
+            "<strong>" +
+            file.name +
+            "</strong> · sheet: " +
+            sheetName;
+        }
+        loadData(parsed.headers, parsed.data);
+        showMessage("Excel loaded from first sheet: " + sheetName, "info");
+      } catch (err) {
+        showMessage("Excel read error: " + err.message, "error");
+      }
+    };
+    reader.onerror = function () {
+      showMessage("Failed to read Excel file.", "error");
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
   function parseCsvFile(file) {
     if (typeof Papa === "undefined") {
       showMessage("CSV parser not loaded. Check your internet connection.", "error");
@@ -282,12 +359,27 @@
           showMessage("Could not read column headers.", "error");
           return;
         }
+        if (els.fileInfo) {
+          els.fileInfo.innerHTML = "<strong>" + file.name + "</strong>";
+        }
         loadData(parsed.headers, parsed.data);
       },
       error: function (err) {
         showMessage("Failed to read file: " + err.message, "error");
       },
     });
+  }
+
+  function parseUploadedFile(file) {
+    if (!file) return;
+    const name = (file.name || "").toLowerCase();
+    if (name.endsWith(".csv")) {
+      parseCsvFile(file);
+    } else if (isExcelFile(file)) {
+      parseXlsxFile(file);
+    } else {
+      showMessage("Use a .csv or .xlsx file.", "error");
+    }
   }
 
   function loadSampleData() {
@@ -371,8 +463,7 @@
     if (els.logX && els.logX.checked) layout.xaxis.type = "log";
     if (els.logY && els.logY.checked) layout.yaxis.type = "log";
 
-    Plotly.newPlot(els.plotDiv, [trace], layout, PLOT_CONFIG);
-
+    return Plotly.newPlot(els.plotDiv, [trace], layout, PLOT_CONFIG).then(function () {
     const xs = computeStats(x);
     const ys = computeStats(y);
     renderStats(
@@ -387,6 +478,7 @@
       },
       xCol + " (X); " + yCol + " mean=" + ys.mean.toFixed(4)
     );
+    });
   }
 
   function buildHistogram() {
@@ -413,14 +505,28 @@
     layout.yaxis.title = "Count";
     layout.bargap = 0.05;
 
-    Plotly.newPlot(els.plotDiv, [trace], layout, PLOT_CONFIG);
-    renderStats(computeStats(values), col);
+    return Plotly.newPlot(els.plotDiv, [trace], layout, PLOT_CONFIG).then(function () {
+      renderStats(computeStats(values), col);
+    });
   }
 
   function buildPlot() {
-    if (!rawRows.length || typeof Plotly === "undefined") return;
-    if (chartMode === "histogram") buildHistogram();
-    else buildCrossplot();
+    if (chartMode === "volume") {
+      calculateVolume();
+      return;
+    }
+    if (!rawRows.length) {
+      showMessage("Upload CSV or load sample data first.", "info");
+      return;
+    }
+    ensurePlotly()
+      .then(function () {
+        if (chartMode === "histogram") return buildHistogram();
+        return buildCrossplot();
+      })
+      .catch(function () {
+        showMessage("Chart library failed to load. Check your connection.", "error");
+      });
   }
 
   function calculateVolume() {
@@ -493,7 +599,9 @@
           font: { size: 12, color: "#9aa5b4" },
         },
       ];
-      Plotly.newPlot(els.plotDiv, [], layout, PLOT_CONFIG);
+      ensurePlotly().then(function () {
+        Plotly.newPlot(els.plotDiv, [], layout, PLOT_CONFIG);
+      });
     }
     if (els.stats) els.stats.innerHTML = "";
   }
@@ -506,16 +614,35 @@
       "chart-mode-volume"
     );
     document.body.classList.add("chart-mode-" + mode);
-    if (els.tabCrossplot) els.tabCrossplot.classList.toggle("is-active", mode === "crossplot");
-    if (els.tabHistogram) els.tabHistogram.classList.toggle("is-active", mode === "histogram");
-    if (els.tabVolume) els.tabVolume.classList.toggle("is-active", mode === "volume");
+
+    const tabs = [
+      { el: els.tabCrossplot, panel: els.panelCrossplot, id: "crossplot" },
+      { el: els.tabHistogram, panel: els.panelHistogram, id: "histogram" },
+      { el: els.tabVolume, panel: els.panelVolume, id: "volume" },
+    ];
+    tabs.forEach(function (t) {
+      if (t.el) {
+        const active = mode === t.id;
+        t.el.classList.toggle("is-active", active);
+        t.el.setAttribute("aria-selected", String(active));
+      }
+      if (t.panel) t.panel.hidden = mode !== t.id;
+    });
+
     if (els.chartOnlyActions) {
       els.chartOnlyActions.hidden = mode === "volume";
     }
     if (mode === "volume") {
       hideMessage();
+      if (els.plotDiv && window.Plotly) {
+        calculateVolume();
+      } else if (els.plotDiv) {
+        ensurePlotly().then(calculateVolume);
+      }
     } else if (rawRows.length) {
       buildPlot();
+    } else if (els.plotDiv && window.Plotly) {
+      Plotly.purge(els.plotDiv);
     }
   }
 
@@ -528,8 +655,26 @@
     if (els.preview) els.preview.innerHTML = "";
     if (els.stats) els.stats.innerHTML = "";
     if (els.volumeResult) els.volumeResult.hidden = true;
-    if (els.plotDiv) Plotly.purge(els.plotDiv);
+    if (els.plotDiv && window.Plotly) Plotly.purge(els.plotDiv);
     hideMessage();
+  }
+
+  function loadSampleFromFile() {
+    fetch("../assets/technical/sample-well-data.csv")
+      .then(function (r) {
+        return r.text();
+      })
+      .then(function (text) {
+        if (typeof Papa === "undefined") return;
+        const result = Papa.parse(text, { skipEmptyLines: true });
+        const parsed = detectColumns(result.data);
+        if (els.fileInfo) {
+          els.fileInfo.innerHTML = "<strong>Sample CSV</strong> (well data)";
+        }
+        loadData(parsed.headers, parsed.data);
+        showMessage("Sample loaded. Porosity vs Permeability crossplot ready.", "info");
+      })
+      .catch(loadSampleData);
   }
 
   /* Upload handlers */
@@ -537,9 +682,15 @@
     els.uploadZone.addEventListener("click", function () {
       els.fileInput.click();
     });
+    els.uploadZone.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        els.fileInput.click();
+      }
+    });
     els.fileInput.addEventListener("change", function () {
       const file = els.fileInput.files[0];
-      if (file) parseCsvFile(file);
+      if (file) parseUploadedFile(file);
     });
     els.uploadZone.addEventListener("dragover", function (e) {
       e.preventDefault();
@@ -552,11 +703,7 @@
       e.preventDefault();
       els.uploadZone.classList.remove("is-dragover");
       const file = e.dataTransfer.files[0];
-      if (file && file.name.toLowerCase().endsWith(".csv")) {
-        parseCsvFile(file);
-      } else {
-        showMessage("Please upload a .csv file.", "error");
-      }
+      if (file) parseUploadedFile(file);
     });
   }
 
@@ -583,5 +730,18 @@
     }
   );
 
-  setChartMode("crossplot");
+  const params = new URLSearchParams(window.location.search);
+  const modeParam = params.get("mode");
+  if (modeParam && ["crossplot", "histogram", "volume"].indexOf(modeParam) >= 0) {
+    setChartMode(modeParam);
+  } else {
+    setChartMode("crossplot");
+  }
+  if (params.get("sample") === "1") {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", loadSampleFromFile);
+    } else {
+      setTimeout(loadSampleFromFile, 100);
+    }
+  }
 })();
