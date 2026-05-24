@@ -52,17 +52,10 @@
       workflowHeading: "AI fault interpretation workflow",
       summary:
         "Central role in ML-driven fault interpretation over 1,145 km² of 3D seismic — seismic conditioning, CNN-based fault detection, model fine-tuning, integration with legacy interpretation, and delivery of a refined fault network for digital subsurface imaging.",
-      figures: [
-        {
-          src: "assets/projects/ai-fault-workflow.svg",
-          alt: "Diagram of AI fault workflow from seismic input through detection, fine-tuning, and fault surface extraction",
-          caption: "Workflow overview: conditioning → AI detection → fine-tuning → confidence volumes → fault sticks and surfaces.",
-          label: "Workflow overview",
-        },
-      ],
+      showFlowchart: true,
       pdf: {
         src: "assets/projects/ai-fault-workflow.pdf",
-        title: "AI Faults Workflow — full illustration",
+        title: "AI Faults Workflow — full illustration (PDF)",
       },
       workflow: [
         {
@@ -107,6 +100,43 @@
   const closeBtn = document.getElementById("project-modal-close");
   let lastFocused = null;
 
+  function assetUrl(relativePath) {
+    try {
+      return new URL(relativePath, window.location.href).href;
+    } catch (e) {
+      return relativePath;
+    }
+  }
+
+  function renderFlowchart() {
+    return (
+      '<div class="project-detail__flowchart" role="img" aria-label="AI fault workflow from seismic input to fault surfaces">' +
+      '<p class="project-detail__figure-label">Workflow overview</p>' +
+      '<div class="flowchart__pipeline">' +
+      '<span class="flowchart__node">Original seismic</span>' +
+      '<span class="flowchart__arrow" aria-hidden="true">→</span>' +
+      '<span class="flowchart__node">AI denoising</span>' +
+      '<span class="flowchart__arrow" aria-hidden="true">→</span>' +
+      '<span class="flowchart__node">Fault imaging</span>' +
+      '<span class="flowchart__arrow" aria-hidden="true">→</span>' +
+      '<span class="flowchart__node flowchart__node--accent">AI fault detection</span>' +
+      '<span class="flowchart__arrow" aria-hidden="true">→</span>' +
+      '<span class="flowchart__node flowchart__node--accent">Fine-tuning</span>' +
+      '<span class="flowchart__arrow" aria-hidden="true">→</span>' +
+      '<span class="flowchart__node flowchart__node--highlight">QC &amp; export</span>' +
+      "</div>" +
+      '<div class="flowchart__outputs">' +
+      '<span class="flowchart__chip">AI confidence</span>' +
+      '<span class="flowchart__chip">Clean confidence</span>' +
+      '<span class="flowchart__chip">Fault trends</span>' +
+      '<span class="flowchart__chip">Fault in</span>' +
+      '<span class="flowchart__chip">Fault sticks &amp; surfaces</span>' +
+      "</div>" +
+      '<p class="project-detail__flowchart-caption">Conditioning → AI detection → fine-tuning → confidence volumes → fault sticks and surfaces (1,145 km² 3D seismic).</p>' +
+      "</div>"
+    );
+  }
+
   function renderFigures(figures) {
     const list = figures || [];
     return list
@@ -116,15 +146,16 @@
           : "";
         const figureClass =
           "project-detail__figure" + (fig.zoom ? " project-detail__figure--zoom" : "");
+        const src = assetUrl(fig.src);
         const img =
           '<img class="project-detail__figure-img" src="' +
-          fig.src +
+          src +
           '" alt="' +
           fig.alt +
-          '" loading="lazy" decoding="async">';
+          '" loading="lazy" decoding="async" onerror="this.closest(\'figure\').classList.add(\'is-broken\')">';
         const media = fig.zoom
           ? '<a class="project-detail__figure-link" href="' +
-            fig.src +
+            src +
             '" target="_blank" rel="noopener noreferrer">' +
             img +
             '<span class="project-detail__figure-hint">Click image to open full size</span></a>'
@@ -146,20 +177,21 @@
   function renderPdf(pdf) {
     if (!pdf || !pdf.src) return "";
     const title = pdf.title || "Project workflow PDF";
+    const url = assetUrl(pdf.src);
     return (
       '<div class="project-detail__pdf">' +
       '<p class="project-detail__figure-label">' +
       title +
       "</p>" +
       '<iframe class="project-detail__pdf-frame" src="' +
-      pdf.src +
+      url +
       '#toolbar=1&navpanes=0" title="' +
       title +
       '"></iframe>' +
       '<p class="project-detail__pdf-fallback">' +
-      'PDF not showing? <a href="' +
-      pdf.src +
-      '" target="_blank" rel="noopener noreferrer">Open workflow PDF in a new tab</a>.' +
+      '<a href="' +
+      url +
+      '" target="_blank" rel="noopener noreferrer">Open workflow PDF in a new tab</a>' +
       "</p></div>"
     );
   }
@@ -195,8 +227,10 @@
 
     const workflowHeading =
       data.workflowHeading || "Project workflow";
-    const figuresBlock = renderFigures(data.figures || (data.figure ? [data.figure] : []));
     const pdfBlock = renderPdf(data.pdf);
+    const flowchartBlock = data.showFlowchart ? renderFlowchart() : "";
+    const figuresBlock = renderFigures(data.figures || (data.figure ? [data.figure] : []));
+    const mediaBlock = pdfBlock + flowchartBlock + figuresBlock;
 
     return (
       '<p class="project-detail__region">' +
@@ -205,9 +239,7 @@
       '<p class="project-detail__summary">' +
       data.summary +
       "</p>" +
-      (figuresBlock || pdfBlock
-        ? '<div class="project-detail__figures">' + figuresBlock + pdfBlock + "</div>"
-        : "") +
+      (mediaBlock ? '<div class="project-detail__figures">' + mediaBlock + "</div>" : "") +
       "<h3 class=\"project-detail__heading\">" +
       workflowHeading +
       "</h3>" +

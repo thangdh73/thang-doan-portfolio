@@ -445,6 +445,78 @@ body.project-modal-open {
   color: var(--color-accent);
 }
 
+.project-detail__flowchart {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  background: var(--color-surface);
+  margin-bottom: var(--space-md);
+}
+
+.project-detail__flowchart-caption {
+  margin: var(--space-sm) 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.flowchart__pipeline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.25rem;
+}
+
+.flowchart__node {
+  padding: 0.4rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.flowchart__node--accent {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.flowchart__node--highlight {
+  background: rgba(45, 212, 191, 0.15);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.flowchart__arrow {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.flowchart__outputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: var(--space-sm);
+}
+
+.flowchart__chip {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+}
+
+.project-detail__figure.is-broken .project-detail__figure-img {
+  display: none;
+}
+
+.project-detail__figure.is-broken figcaption::before {
+  content: "Image unavailable on server — use the PDF or diagram above. ";
+  color: var(--color-gold);
+}
+
 /* Education */
 .education-card {
   max-width: 36rem;
