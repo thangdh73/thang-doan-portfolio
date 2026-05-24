@@ -7,7 +7,7 @@
       title: "Tembakau IPC — FDP Green Field",
       figures: [
         {
-          src: "assets/projects/tembakau-cross-sections.jpg",
+          src: "assets/projects/tembakau-cross-sections.JPG",
           alt:
             "I80 reservoir layer 91: gas-zone statistics QC, AI seismic and lithofacies plan maps, strike and dip sections through wells A and B",
           caption:
