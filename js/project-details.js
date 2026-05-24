@@ -5,6 +5,7 @@
     tembakau: {
       region: "Malaysia · Offshore",
       title: "Tembakau IPC — FDP Green Field",
+      workflowHeading: "Seismic model building workflow",
       figures: [
         {
           src: "assets/projects/tembakau-cross-sections.JPG",
@@ -45,6 +46,59 @@
       ],
       tags: ["FDP", "Attribute Analysis", "Seismic conditioning", "Lithofacies"],
     },
+    "ai-fault": {
+      region: "Vietnam · Offshore",
+      title: "AI Fault Interpretation",
+      workflowHeading: "AI fault interpretation workflow",
+      summary:
+        "Central role in ML-driven fault interpretation over 1,145 km² of 3D seismic — seismic conditioning, CNN-based fault detection, model fine-tuning, integration with legacy interpretation, and delivery of a refined fault network for digital subsurface imaging.",
+      figures: [
+        {
+          src: "assets/projects/ai-fault-workflow.svg",
+          alt: "Diagram of AI fault workflow from seismic input through detection, fine-tuning, and fault surface extraction",
+          caption: "Workflow overview: conditioning → AI detection → fine-tuning → confidence volumes → fault sticks and surfaces.",
+          label: "Workflow overview",
+        },
+      ],
+      pdf: {
+        src: "assets/projects/ai-fault-workflow.pdf",
+        title: "AI Faults Workflow — full illustration",
+      },
+      workflow: [
+        {
+          title: "Seismic data conditioning",
+          text: "Original 3D seismic volume prepared for ML — AI denoising and fault-imaging workflows to enhance fault expression before detection.",
+        },
+        {
+          title: "AI fault detection",
+          text: "3D convolutional networks (CNNs) predict fault likelihood across the survey. Pre-trained networks (e.g. Birch, Larch, Meranti for Z sticks; Confidence, Ash for volume confidence) provide the starting point.",
+        },
+        {
+          title: "Fine-tuning on survey data",
+          text: "Networks fine-tuned on local 3D seismic so fault predictions match regional geology — balancing legacy interpretation with ML-derived edges.",
+        },
+        {
+          title: "Confidence & cleaning",
+          text: "AI confidence volumes (0–100%) refined with gaussian smoothing and fault-detect ridge operators to segment lineations representing likely fault edges.",
+        },
+        {
+          title: "Fault trends & Fault In",
+          text: "Fault Trends estimates strike orientation along detected lineations (fault families). Fault In embeds detected faults into the conditioned seismic volume for QC against reflectivity.",
+        },
+        {
+          title: "Sticks, surfaces & framework",
+          text: "Automated extraction of fault sticks and surfaces, integrated with interpreter edits — refined fault network exported for static modelling and digital subsurface workflows.",
+        },
+      ],
+      deliverables: [
+        "Conditioned seismic and AI confidence volumes",
+        "Fine-tuned 3D fault detection (survey-specific)",
+        "Fault trends and Fault In QC products",
+        "Fault sticks and surfaces for framework building",
+        "Integration with legacy fault interpretation (1,145 km²)",
+      ],
+      tags: ["AI / ML", "Seismic Interpretation", "Fault framework", "CNN"],
+    },
   };
 
   const modal = document.getElementById("project-modal");
@@ -53,37 +107,9 @@
   const closeBtn = document.getElementById("project-modal-close");
   let lastFocused = null;
 
-  function renderDetail(data) {
-    const workflowHtml = data.workflow
-      .map(function (step, i) {
-        return (
-          '<li class="project-detail__step">' +
-          '<span class="project-detail__step-num">' +
-          (i + 1) +
-          "</span>" +
-          "<div><strong>" +
-          step.title +
-          "</strong><p>" +
-          step.text +
-          "</p></div></li>"
-        );
-      })
-      .join("");
-
-    const tagsHtml = data.tags
-      .map(function (t) {
-        return '<span class="tag">' + t + "</span>";
-      })
-      .join("");
-
-    const deliverablesHtml = data.deliverables
-      .map(function (d) {
-        return "<li>" + d + "</li>";
-      })
-      .join("");
-
-    const figures = data.figures || (data.figure ? [data.figure] : []);
-    const figuresHtml = figures
+  function renderFigures(figures) {
+    const list = figures || [];
+    return list
       .map(function (fig) {
         const label = fig.label
           ? '<p class="project-detail__figure-label">' + fig.label + "</p>"
@@ -115,6 +141,62 @@
         );
       })
       .join("");
+  }
+
+  function renderPdf(pdf) {
+    if (!pdf || !pdf.src) return "";
+    const title = pdf.title || "Project workflow PDF";
+    return (
+      '<div class="project-detail__pdf">' +
+      '<p class="project-detail__figure-label">' +
+      title +
+      "</p>" +
+      '<iframe class="project-detail__pdf-frame" src="' +
+      pdf.src +
+      '#toolbar=1&navpanes=0" title="' +
+      title +
+      '"></iframe>' +
+      '<p class="project-detail__pdf-fallback">' +
+      'PDF not showing? <a href="' +
+      pdf.src +
+      '" target="_blank" rel="noopener noreferrer">Open workflow PDF in a new tab</a>.' +
+      "</p></div>"
+    );
+  }
+
+  function renderDetail(data) {
+    const workflowHtml = data.workflow
+      .map(function (step, i) {
+        return (
+          '<li class="project-detail__step">' +
+          '<span class="project-detail__step-num">' +
+          (i + 1) +
+          "</span>" +
+          "<div><strong>" +
+          step.title +
+          "</strong><p>" +
+          step.text +
+          "</p></div></li>"
+        );
+      })
+      .join("");
+
+    const tagsHtml = data.tags
+      .map(function (t) {
+        return '<span class="tag">' + t + "</span>";
+      })
+      .join("");
+
+    const deliverablesHtml = data.deliverables
+      .map(function (d) {
+        return "<li>" + d + "</li>";
+      })
+      .join("");
+
+    const workflowHeading =
+      data.workflowHeading || "Project workflow";
+    const figuresBlock = renderFigures(data.figures || (data.figure ? [data.figure] : []));
+    const pdfBlock = renderPdf(data.pdf);
 
     return (
       '<p class="project-detail__region">' +
@@ -123,10 +205,12 @@
       '<p class="project-detail__summary">' +
       data.summary +
       "</p>" +
-      '<div class="project-detail__figures">' +
-      figuresHtml +
-      "</div>" +
-      '<h3 class="project-detail__heading">Seismic model building workflow</h3>' +
+      (figuresBlock || pdfBlock
+        ? '<div class="project-detail__figures">' + figuresBlock + pdfBlock + "</div>"
+        : "") +
+      "<h3 class=\"project-detail__heading\">" +
+      workflowHeading +
+      "</h3>" +
       '<ol class="project-detail__workflow">' +
       workflowHtml +
       "</ol>" +

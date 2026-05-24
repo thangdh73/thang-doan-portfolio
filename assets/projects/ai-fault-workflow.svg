@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" role="img" aria-labelledby="aiFaultTitle">
+  <title id="aiFaultTitle">AI fault interpretation workflow overview</title>
+  <rect width="880" height="320" fill="#1a2332"/>
+  <text x="24" y="28" fill="#e8eaed" font-family="system-ui,sans-serif" font-size="14" font-weight="700">AI fault workflow (1,145 km2 3D seismic)</text>
+  <rect x="24" y="44" width="120" height="48" rx="6" fill="#243044" stroke="#2dd4bf"/>
+  <text x="84" y="72" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">Original seismic</text>
+  <path d="M144 68h32" stroke="#64748b" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="176" y="44" width="120" height="48" rx="6" fill="#243044" stroke="#2dd4bf"/>
+  <text x="236" y="64" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">AI denoising</text>
+  <text x="236" y="78" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">conditioning</text>
+  <path d="M296 68h32" stroke="#64748b" stroke-width="2"/>
+  <rect x="328" y="44" width="120" height="48" rx="6" fill="#243044" stroke="#2dd4bf"/>
+  <text x="388" y="64" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">Fault imaging</text>
+  <text x="388" y="78" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">expression</text>
+  <path d="M448 68h32" stroke="#64748b" stroke-width="2"/>
+  <rect x="480" y="44" width="120" height="48" rx="6" fill="#243044" stroke="#d4a853"/>
+  <text x="540" y="64" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">AI fault</text>
+  <text x="540" y="78" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">detection</text>
+  <path d="M600 68h32" stroke="#64748b" stroke-width="2"/>
+  <rect x="632" y="44" width="120" height="48" rx="6" fill="#243044" stroke="#d4a853"/>
+  <text x="692" y="64" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">Fine-tuning</text>
+  <text x="692" y="78" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">3D CNN networks</text>
+  <path d="M752 68h32" stroke="#64748b" stroke-width="2"/>
+  <rect x="784" y="44" width="72" height="48" rx="6" fill="#2dd4bf" fill-opacity="0.2" stroke="#2dd4bf"/>
+  <text x="820" y="72" text-anchor="middle" fill="#2dd4bf" font-size="10" font-weight="600" font-family="system-ui,sans-serif">QC</text>
+  <text x="24" y="120" fill="#d4a853" font-size="11" font-weight="600" font-family="system-ui,sans-serif">Outputs and interpretation</text>
+  <rect x="24" y="132" width="160" height="56" rx="4" fill="#0f1419" stroke="#334155"/>
+  <text x="104" y="154" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">AI confidence</text>
+  <text x="104" y="170" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">0-100%</text>
+  <rect x="200" y="132" width="160" height="56" rx="4" fill="#0f1419" stroke="#334155"/>
+  <text x="280" y="154" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">Clean confidence</text>
+  <text x="280" y="170" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">Fault detect</text>
+  <rect x="376" y="132" width="160" height="56" rx="4" fill="#0f1419" stroke="#334155"/>
+  <text x="456" y="154" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">Fault trends</text>
+  <text x="456" y="170" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">Strike families</text>
+  <rect x="552" y="132" width="160" height="56" rx="4" fill="#0f1419" stroke="#334155"/>
+  <text x="632" y="154" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">Fault in</text>
+  <text x="632" y="170" text-anchor="middle" fill="#e8eaed" font-size="10" font-family="system-ui,sans-serif">On seismic</text>
+  <rect x="728" y="132" width="128" height="56" rx="4" fill="#0f1419" stroke="#2dd4bf"/>
+  <text x="792" y="154" text-anchor="middle" fill="#9aa5b4" font-size="9" font-family="system-ui,sans-serif">Sticks and</text>
+  <text x="792" y="170" text-anchor="middle" fill="#2dd4bf" font-size="10" font-weight="600" font-family="system-ui,sans-serif">surfaces</text>
+  <text x="24" y="220" fill="#9aa5b4" font-size="10" font-family="system-ui,sans-serif">Networks used in project: Birch, Larch, Meranti (Z sticks), Confidence, Ash  fine-tuned on survey data, integrated with legacy interpretation.</text>
+  <text x="24" y="300" fill="#64748b" font-size="9" font-family="system-ui,sans-serif">See full workflow PDF in project detail modal.</text>
+  <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs>
+</svg>

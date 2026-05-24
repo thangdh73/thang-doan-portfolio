@@ -416,6 +416,35 @@ body.project-modal-open {
   gap: 0.35rem;
 }
 
+.project-detail__pdf {
+  margin-top: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.project-detail__pdf-frame {
+  display: block;
+  width: 100%;
+  height: min(70vh, 520px);
+  border: 0;
+  background: #fff;
+}
+
+.project-detail__pdf-fallback {
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-alt);
+}
+
+.project-detail__pdf-fallback a {
+  color: var(--color-accent);
+}
+
 /* Education */
 .education-card {
   max-width: 36rem;
