@@ -9,7 +9,7 @@ email: "you@company.com",
 phone: "+84 ...",
 location: "City, Country",
 linkedin: "https://www.linkedin.com/in/your-handle",
-siteUrl: "https://your-site.netlify.app",  // after first deploy
+siteUrl: "https://thangdh.vercel.app/",  // Vercel
 ```
 
 Add **`assets/cv.pdf`**.
@@ -38,13 +38,9 @@ Live URL: `https://YOUR_USER.github.io/thang-doan-portfolio/`
 
 Update `siteUrl` in `site-config.js` and push again.
 
-## 4. Netlify (fastest)
+## 4. Other hosts
 
-1. Go to [app.netlify.com/drop](https://app.netlify.com/drop)
-2. Drag the `thang-doan-portfolio` folder
-3. Copy the `.netlify.app` URL into `siteUrl`
-
-Or connect your GitHub repo — no build command, publish directory: `.`
+See [HOSTING-ALTERNATIVES.md](HOSTING-ALTERNATIVES.md) (Cloudflare Pages, Vercel). Netlify is optional — see [NETLIFY.md](NETLIFY.md).
 
 ## 5. Vercel
 

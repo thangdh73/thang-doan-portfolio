@@ -11,8 +11,11 @@ window.SITE_CONFIG = {
   /** Path to downloadable CV (add assets/cv.pdf when ready) */
   cvPath: "assets/cv.pdf",
 
-  /** Your live site URL after deploy (optional, for Open Graph) */
-  siteUrl: "",
+  /**
+   * Live site URL (Open Graph / social previews).
+   * Vercel production: https://thangdh.vercel.app/
+   */
+  siteUrl: "https://thangdh.vercel.app/",
 
   /**
    * Career start years — experience counts update automatically each year.
