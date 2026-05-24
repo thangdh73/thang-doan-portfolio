@@ -329,7 +329,14 @@
               <span class="tag">AI Data-Driven</span>
             </div>
           </article>
-          <article class="project-card fade-in">
+          <article
+            class="project-card project-card--detail fade-in"
+            data-project-detail="tembakau"
+            tabindex="0"
+            role="button"
+            aria-label="Tembakau IPC — view seismic model building details"
+            aria-haspopup="dialog"
+          >
             <p class="project-card__region">Malaysia · Offshore</p>
             <h3 class="project-card__title">Tembakau IPC — FDP Green Field</h3>
             <p class="project-card__desc">Onsite lead for seismic attribute analysis, seismically conditioned reservoir models, dynamic modelling support, and deterministic/probabilistic resource assessment.</p>
@@ -337,6 +344,7 @@
               <span class="tag">FDP</span>
               <span class="tag">Attribute Analysis</span>
             </div>
+            <p class="project-card__cta">View seismic model workflow</p>
           </article>
           <article class="project-card fade-in">
             <p class="project-card__region">Malaysia · PM3 CAA</p>
@@ -736,8 +744,32 @@
 
   <a href="#hero" class="back-to-top" aria-label="Back to top">↑</a>
 
+  <div id="project-modal" class="project-modal" hidden>
+    <div class="project-modal__backdrop" aria-hidden="true"></div>
+    <div
+      class="project-modal__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-modal-title"
+    >
+      <button
+        type="button"
+        id="project-modal-close"
+        class="project-modal__close"
+        aria-label="Close project details"
+      >
+        ×
+      </button>
+      <header class="project-modal__header">
+        <h2 id="project-modal-title" class="project-modal__title">Project details</h2>
+      </header>
+      <div id="project-modal-body" class="project-modal__body"></div>
+    </div>
+  </div>
+
   <script src="js/site-config.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/project-details.js"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>

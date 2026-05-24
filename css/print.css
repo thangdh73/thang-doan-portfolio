@@ -37,6 +37,10 @@
 
   .tag,
   .timeline-item__card,
+  .project-modal {
+    display: none !important;
+  }
+
   .project-card,
   .skill-category {
     border: 1px solid #ccc;
