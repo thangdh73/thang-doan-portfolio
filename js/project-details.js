@@ -92,6 +92,64 @@
       ],
       tags: ["AI / ML", "Seismic Interpretation", "Fault framework", "CNN"],
     },
+    mako: {
+      region: "Indonesia · Natuna Sea · Conrad",
+      title: "Conrad Mako Gas Field — Model Update 2023",
+      workflowHeading: "Reservoir modeling workflow",
+      summary:
+        "Featured portfolio case study: integrated new 3D seismic acoustic impedance over the SW area (116 km²) with legacy 2D pseudo-AI, updated structure and Petrel static model (Three60 workflow), and delivered measurable GIIP uplift for the Mako gas field.",
+      presentation: {
+        title: "Reservoir modeling portfolio (7 slides)",
+        pdf: "assets/projects/mako-reservoir-modeling-portfolio.pdf",
+        pptx: "assets/projects/mako-reservoir-modeling-portfolio.pptx",
+      },
+      highlights: [
+        { value: "+6%", label: "Total field GIIP uplift" },
+        { value: "+8%", label: "Primary zone (Muda Sand1)" },
+        { value: "116 km²", label: "3D seismic SW coverage" },
+        { value: "12 m", label: "Structure shallower vs legacy 2D" },
+        { value: "6 wells", label: "Foundation dataset" },
+        { value: "610k", label: "Active model cells (+4.3%)" },
+      ],
+      workflow: [
+        {
+          title: "3D seismic & AI integration",
+          text: "Interpreted reservoir tops/bases in TWT, depth conversion on 116 km² new 3D seismic; merged 3D acoustic impedance with legacy 2D pseudo-AI — Area A without rebalancing, Area B rebalanced; removed anomalous DYG-13 line.",
+        },
+        {
+          title: "Structural update",
+          text: "Structure up to 12 m shallower versus legacy 2D interpretation — increased gross rock volume feeding volumetric uplift.",
+        },
+        {
+          title: "Petrel static model (Three60)",
+          text: "Full reservoir model update in Petrel following Three60 standard workflow — structural framework, facies and properties integrated with new seismic inputs.",
+        },
+        {
+          title: "AI-guided facies & properties",
+          text: "Sequential Indicator Simulation (SIS) with AI guidance; water-to-gas substitution in property modelling; active gas cells increased ~4% (303,863 vs 291,739).",
+        },
+        {
+          title: "GIIP volumetrics",
+          text: "Gas initially in place recalculated by zone — +6% field total, +8% in primary Muda Sand1, +49% upside outside contract boundary vs legacy model.",
+        },
+      ],
+      deliverables: [
+        "Merged 3D + 2D seismic AI volume in Petrel",
+        "Updated structural model and depth framework",
+        "3D facies model with AI-guided SIS",
+        "Updated porosity, permeability, and Sw",
+        "GIIP report with zone-level comparison",
+        "Reservoir modeling portfolio (7 slides)",
+      ],
+      tags: [
+        "Petrel",
+        "Three60",
+        "GIIP",
+        "Seismic AI",
+        "Static model",
+        "Natuna Sea",
+      ],
+    },
     "eage-2016": {
       region: "EAGE · Kuala Lumpur · December 2016",
       title: "Best Practices in Seismic Constraining of 3D Reservoir Architecture Models",
@@ -147,6 +205,119 @@
     } catch (e) {
       return relativePath;
     }
+  }
+
+  function publicAssetUrl(relativePath) {
+    const cfg = window.SITE_CONFIG || {};
+    const base = cfg.siteUrl
+      ? String(cfg.siteUrl).replace(/\/?$/, "/")
+      : new URL("./", window.location.href).href;
+    try {
+      return new URL(relativePath, base).href;
+    } catch (e) {
+      return assetUrl(relativePath);
+    }
+  }
+
+  function renderPresentation(pres) {
+    if (!pres) return "";
+    const title = pres.title || "Portfolio presentation";
+    const pdfUrl = pres.pdf ? assetUrl(pres.pdf) : "";
+    const pptxUrl = pres.pptx ? publicAssetUrl(pres.pptx) : "";
+    const officeUrl = pptxUrl
+      ? "https://view.officeapps.live.com/op/embed.aspx?src=" +
+        encodeURIComponent(pptxUrl)
+      : "";
+
+    let viewerHtml = "";
+    if (pdfUrl) {
+      viewerHtml +=
+        '<iframe class="project-detail__pdf-frame project-detail__pdf-frame--deck" data-pres-pdf src="' +
+        pdfUrl +
+        '#toolbar=1&navpanes=0" title="' +
+        title +
+        ' (PDF)"></iframe>';
+    }
+    if (officeUrl) {
+      viewerHtml +=
+        '<iframe class="project-detail__office-frame" data-pres-office hidden src="' +
+        officeUrl +
+        '" title="' +
+        title +
+        ' (PowerPoint)"></iframe>';
+    }
+
+    const openPdf = pdfUrl
+      ? '<a href="' + pdfUrl + '" target="_blank" rel="noopener noreferrer">Open PDF</a>'
+      : "";
+    const openPptx = pptxUrl
+      ? '<a href="' + assetUrl(pres.pptx) + '" target="_blank" rel="noopener noreferrer">Open PowerPoint</a>'
+      : "";
+    const links = [openPdf, openPptx].filter(Boolean).join(" · ");
+
+    return (
+      '<div class="project-detail__pdf project-detail__presentation" data-presentation data-pres-pdf-path="' +
+      (pres.pdf || "") +
+      '">' +
+      '<p class="project-detail__figure-label">' +
+      title +
+      "</p>" +
+      '<p class="project-detail__pres-hint" data-pres-status>Loading presentation…</p>' +
+      viewerHtml +
+      '<p class="project-detail__pdf-fallback" data-pres-fallback hidden>' +
+      links +
+      " · If the preview is blank, run <code>save-mako-as-pdf.ps1</code>, commit the PDF, and push to Vercel." +
+      "</p></div>"
+    );
+  }
+
+  function initPresentations(root) {
+    const scope = root || document;
+    scope.querySelectorAll("[data-presentation]").forEach(function (wrap) {
+      const pdfPath = wrap.getAttribute("data-pres-pdf-path");
+      const pdfFrame = wrap.querySelector("[data-pres-pdf]");
+      const officeFrame = wrap.querySelector("[data-pres-office]");
+      const status = wrap.querySelector("[data-pres-status]");
+      const fallback = wrap.querySelector("[data-pres-fallback]");
+
+      function usePdf() {
+        if (pdfFrame) pdfFrame.hidden = false;
+        if (officeFrame) officeFrame.hidden = true;
+        if (status) {
+          status.textContent =
+            "PDF export of your PowerPoint deck — scroll or use PDF controls to move between slides.";
+        }
+        if (fallback) fallback.hidden = false;
+      }
+
+      function useOffice() {
+        if (pdfFrame) pdfFrame.hidden = true;
+        if (officeFrame) {
+          officeFrame.hidden = false;
+          officeFrame.removeAttribute("hidden");
+        }
+        if (status) {
+          status.textContent =
+            "Live PowerPoint view (Microsoft Office viewer) — use slide controls in the viewer.";
+        }
+        if (fallback) fallback.hidden = false;
+      }
+
+      if (!pdfPath) {
+        useOffice();
+        return;
+      }
+
+      const pdfUrl = assetUrl(pdfPath);
+      usePdf();
+      fetch(pdfUrl, { method: "HEAD", cache: "no-store" })
+        .then(function (res) {
+          if (!res.ok && officeFrame) useOffice();
+        })
+        .catch(function () {
+          if (officeFrame) useOffice();
+        });
+    });
   }
 
   function renderFlowchart() {
@@ -215,16 +386,57 @@
       .join("");
   }
 
+  function renderHighlights(items) {
+    if (!items || !items.length) return "";
+    const cells = items
+      .map(function (h) {
+        return (
+          '<div class="project-detail__metric">' +
+          '<span class="project-detail__metric-value">' +
+          h.value +
+          "</span>" +
+          '<span class="project-detail__metric-label">' +
+          h.label +
+          "</span></div>"
+        );
+      })
+      .join("");
+    return (
+      '<div class="project-detail__metrics">' +
+      '<p class="project-detail__figure-label">Key outcomes</p>' +
+      '<div class="project-detail__metrics-grid">' +
+      cells +
+      "</div></div>"
+    );
+  }
+
+  function renderDownload(dl) {
+    if (!dl || !dl.src) return "";
+    const url = assetUrl(dl.src);
+    return (
+      '<p class="project-detail__download">' +
+      '<a class="btn btn--primary" href="' +
+      url +
+      '" download target="_blank" rel="noopener noreferrer">' +
+      dl.label +
+      "</a></p>"
+    );
+  }
+
   function renderPdf(pdf) {
     if (!pdf || !pdf.src) return "";
     const title = pdf.title || "Project workflow PDF";
     const url = assetUrl(pdf.src);
+    const frameClass =
+      "project-detail__pdf-frame" + (pdf.deck ? " project-detail__pdf-frame--deck" : "");
     return (
       '<div class="project-detail__pdf">' +
       '<p class="project-detail__figure-label">' +
       title +
       "</p>" +
-      '<iframe class="project-detail__pdf-frame" src="' +
+      '<iframe class="' +
+      frameClass +
+      '" src="' +
       url +
       '#toolbar=1&navpanes=0" title="' +
       title +
@@ -232,7 +444,8 @@
       '<p class="project-detail__pdf-fallback">' +
       '<a href="' +
       url +
-      '" target="_blank" rel="noopener noreferrer">Open workflow PDF in a new tab</a>' +
+      '" target="_blank" rel="noopener noreferrer">Open PDF in a new tab</a>' +
+      " · If the preview shows 404, wait 1–2 min after deploy and hard-refresh (Ctrl+F5)." +
       "</p></div>"
     );
   }
@@ -269,9 +482,18 @@
     const workflowHeading =
       data.workflowHeading || "Project workflow";
     const pdfBlock = renderPdf(data.pdf);
+    const downloadBlock = renderDownload(data.download);
+    const presentationBlock = renderPresentation(data.presentation);
+    const highlightsBlock = renderHighlights(data.highlights);
     const flowchartBlock = data.showFlowchart ? renderFlowchart() : "";
     const figuresBlock = renderFigures(data.figures || (data.figure ? [data.figure] : []));
-    const mediaBlock = pdfBlock + flowchartBlock + figuresBlock;
+    const mediaBlock =
+      presentationBlock +
+      downloadBlock +
+      highlightsBlock +
+      pdfBlock +
+      flowchartBlock +
+      figuresBlock;
 
     const authorsHtml = data.authors
       ? '<p class="project-detail__authors">' + data.authors + "</p>"
@@ -309,6 +531,7 @@
     lastFocused = document.activeElement;
     if (modalTitle) modalTitle.textContent = data.title;
     modalBody.innerHTML = renderDetail(data);
+    initPresentations(modalBody);
     modal.hidden = false;
     document.body.classList.add("project-modal-open");
     modal.scrollTop = 0;

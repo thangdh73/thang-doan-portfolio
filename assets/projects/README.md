@@ -1,5 +1,28 @@
 # Project figures
 
+## Conrad Mako Gas Field (portfolio deck)
+
+| File | Description |
+|------|-------------|
+| `mako-reservoir-modeling-portfolio.pptx` | Source deck (7 slides) — optional; used as Office viewer fallback on Vercel |
+| `mako-reservoir-modeling-portfolio.pdf` | **Required for exact slides** in the project modal (export from PowerPoint) |
+
+### One-time setup (Windows + PowerPoint)
+
+```powershell
+.\copy-mako-portfolio.ps1
+.\save-mako-as-pdf.ps1
+git add assets/projects/mako-reservoir-modeling-portfolio.pdf assets/projects/mako-reservoir-modeling-portfolio.pptx
+git commit -m "Add Mako portfolio PDF for in-page slides"
+git push origin main
+```
+
+Or double-click **`save-mako-as-pdf.bat`** after the PPTX is copied.
+
+The Mako modal embeds the **PDF** (pixel-perfect export). If the PDF is missing on the server, it falls back to Microsoft’s **Office online viewer** for the `.pptx` (also exact PowerPoint layout, needs the PPTX pushed to Vercel).
+
+---
+
 ## Tembakau IPC
 
 | File | Used in modal |
