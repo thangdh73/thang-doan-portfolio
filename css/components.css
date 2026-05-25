@@ -611,6 +611,39 @@ body.project-modal-open {
   color: var(--color-text-muted);
 }
 
+.publication-card--detail {
+  cursor: pointer;
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.publication-card--detail:hover {
+  border-left-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+.publication-card--detail:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.publication-card__cta {
+  margin-top: var(--space-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.publication-card--detail:hover .publication-card__cta {
+  color: var(--color-accent-hover);
+}
+
+.project-detail__authors {
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  margin: 0 0 var(--space-sm);
+  font-style: italic;
+}
+
 /* Contact */
 .contact-grid {
   display: grid;

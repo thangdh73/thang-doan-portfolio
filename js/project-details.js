@@ -92,6 +92,47 @@
       ],
       tags: ["AI / ML", "Seismic Interpretation", "Fault framework", "CNN"],
     },
+    "eage-2016": {
+      region: "EAGE · Kuala Lumpur · December 2016",
+      title: "Best Practices in Seismic Constraining of 3D Reservoir Architecture Models",
+      authors: "A.J.W. Everts (LEAP Energy) & H.D. Thang (LEAP Energy)",
+      workflowHeading: "Key themes from the paper",
+      summary:
+        "Conference paper on practical methods to constrain 3D static reservoir architecture with seismic — balancing geological concept, hard/soft seismic constraints, and close-the-loop QC. Focus on complex clastic “labyrinth-type” settings where vertical resolution and object shapes are challenging.",
+      pdf: {
+        src: "assets/publications/eage-seismic-constraining-2016.pdf",
+        title: "EAGE 2016 — full paper (PDF)",
+      },
+      workflow: [
+        {
+          title: "Conceptual model drives the method",
+          text: "Appropriate geological concept (valley vs shoreface, channel-levee, etc.) determines whether to hard-code or soft-code seismic into architecture and properties — one workflow does not fit all settings.",
+        },
+        {
+          title: "Vertical resolution & seismic facies domains",
+          text: "Combine well-based vertical facies trends with lateral maps from seismic attributes; polygonise seismic facies domains (e.g. valley-fill vs overbank) and model each domain separately when breaks are geologically justified.",
+        },
+        {
+          title: "Realistic sedimentary body shapes",
+          text: "Object modelling with manual constraining from amplitude domains and seismic-derived trendlines — control orientation and seed probability, not only position — with Net-to-Gross back-comparison to seismic.",
+        },
+        {
+          title: "Spatial facies arrangements",
+          text: "Nested workflows using distance-to-surface or distance-to-trendline properties to place dependent facies (e.g. splays on channels, proximal–distal levee grading) in geologically consistent patterns.",
+        },
+        {
+          title: "Close-the-loop QC",
+          text: "Compare average property maps from the static model against the seismic attribute maps used for constraining — a practical quality check that the model honours the seismic input.",
+        },
+      ],
+      deliverables: [
+        "Framework for seismic-constrained static modelling in clastics",
+        "Domain-based and object-based constraining workflows",
+        "Field case studies (lower coastal plain, deepwater channel-levee)",
+        "QC via model vs seismic attribute comparison",
+      ],
+      tags: ["EAGE", "Publication", "Static modelling", "Seismic constraining"],
+    },
   };
 
   const modal = document.getElementById("project-modal");
@@ -232,10 +273,15 @@
     const figuresBlock = renderFigures(data.figures || (data.figure ? [data.figure] : []));
     const mediaBlock = pdfBlock + flowchartBlock + figuresBlock;
 
+    const authorsHtml = data.authors
+      ? '<p class="project-detail__authors">' + data.authors + "</p>"
+      : "";
+
     return (
       '<p class="project-detail__region">' +
       data.region +
       "</p>" +
+      authorsHtml +
       '<p class="project-detail__summary">' +
       data.summary +
       "</p>" +
