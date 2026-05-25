@@ -30,14 +30,18 @@ python -m http.server 8080
 | Email, phone, location, LinkedIn | `js/site-config.js` |
 | CV PDF | Add `assets/cv.pdf` |
 | Graduation year | `index.html` — Education card |
-| Certifications | `index.html` — Certifications placeholder |
+| Certifications | `index.html` — Education section (10 courses) |
 | Profile photo | Optional — add to hero in `index.html` + `css/layout.css` |
 
 See [PLACEHOLDERS.md](PLACEHOLDERS.md) and [CHECKLIST.md](CHECKLIST.md). Full deploy steps: [DEPLOY.md](DEPLOY.md).
 
 ## Deploy (free)
 
-**Easiest guide:** [DEPLOY-FREE.md](DEPLOY-FREE.md) — Netlify Drop (2 min) or GitHub Pages (free forever).
+**Vercel:** [VERCEL.md](VERCEL.md) — import from GitHub (good if you already use Vercel).
+
+**GitHub Pages:** [GITHUB-PAGES.md](GITHUB-PAGES.md) — free, no upgrade prompts.
+
+**Others:** [HOSTING-ALTERNATIVES.md](HOSTING-ALTERNATIVES.md)
 
 ### GitHub Pages
 

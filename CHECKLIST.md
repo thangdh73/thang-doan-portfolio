@@ -7,7 +7,7 @@
 - [x] About, Skills, Experience, Projects, Education, Achievements, Contact
 - [x] Technical Corner + Data Analysis Lab (beyond original plan)
 - [x] CV-accurate jobs, projects, awards, publication (H.D. Thang / LEAP Energy)
-- [x] No invented certifications
+- [x] Certifications listed (10 courses from CV data)
 - [x] Responsive layout, accessibility, reduced-motion
 - [x] `js/site-config.js`, `README.md`, deploy configs
 - [x] Git repository initialized

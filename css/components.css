@@ -548,15 +548,132 @@ body.project-modal-open {
   font-style: italic;
 }
 
-/* Certifications placeholder */
-.cert-placeholder {
-  text-align: center;
-  padding: var(--space-md);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-lg);
-  color: var(--color-text-muted);
-  max-width: 36rem;
+/* Certifications */
+.section__header--spaced {
+  margin-top: var(--space-xl);
+}
+
+.cert-list {
+  max-width: 56rem;
   margin-inline: auto;
+}
+
+.cert-list__group-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: var(--space-lg) 0 var(--space-sm);
+}
+
+.cert-list__group-title:first-child {
+  margin-top: 0;
+}
+
+.cert-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.cert-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.cert-table th,
+.cert-table td {
+  padding: 0.65rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cert-table th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  background: var(--color-bg-alt);
+}
+
+.cert-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cert-table td:first-child {
+  font-weight: 500;
+  color: var(--color-white);
+  min-width: 11rem;
+}
+
+.cert-table td:nth-child(2) {
+  color: var(--color-text-muted);
+}
+
+.cert-table td:nth-child(3) {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.cert-table td:last-child {
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .cert-table thead {
+    display: none;
+  }
+
+  .cert-table tbody tr {
+    display: block;
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cert-table tbody tr:last-child {
+    border-bottom: none;
+  }
+
+  .cert-table td {
+    display: block;
+    border: none;
+    padding: 0.2rem 0.85rem;
+  }
+
+  .cert-table td::before {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 0.15rem;
+  }
+
+  .cert-table td:nth-child(1)::before {
+    content: "Course";
+  }
+
+  .cert-table td:nth-child(2)::before {
+    content: "Provider";
+  }
+
+  .cert-table td:nth-child(3)::before {
+    content: "Location";
+  }
+
+  .cert-table td:nth-child(4)::before {
+    content: "Date";
+  }
+
+  .cert-table td:last-child {
+    padding-bottom: 0.65rem;
+  }
 }
 
 /* Achievements */
