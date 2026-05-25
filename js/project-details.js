@@ -92,6 +92,65 @@
       ],
       tags: ["AI / ML", "Seismic Interpretation", "Fault framework", "CNN"],
     },
+    poseidon: {
+      region: "Oman · PDO · Wafra Field",
+      title: "POSEIDON — Wafra Field Static Model Build & Update",
+      workflowHeading: "Static model workflow (POSEIDON / Three60)",
+      summary:
+        "AI-driven POSEIDON study for Petroleum Development Oman (PDO): fast-paced repair and update of the legacy 2013 Wafra Field Petrel static model — structural framework, sequence-package zonation in the Gharif Formation, facies and property modelling, fluid contacts, and STOIIP uncertainty scenarios to support ROCM and ML workflows.",
+      presentation: {
+        title: "POSEIDON static model study (9 slides)",
+        pdf: "assets/projects/poseidon-static-model.pdf",
+      },
+      highlights: [
+        { value: "112", label: "Wells (field inventory)" },
+        { value: "~4.3M", label: "Grid cells (122×201×175)" },
+        { value: "10–12 km²", label: "Model coverage" },
+        { value: "7", label: "Zones — contacts updated" },
+        { value: "UG2 / UG3", label: "Primary BCO flow units" },
+        { value: "3 mo", label: "Legacy model repair (no extra cost)" },
+      ],
+      workflow: [
+        {
+          title: "Legacy model assessment",
+          text: "Reviewed 2013 Petrel build (67 wells in scope); remediated formation-top mismatches, correlation errors, OWC discrepancies, log inconsistencies, and missing uncertainty cases — agreed 3-month repair at no additional cost for POSEIDON ROCM support.",
+        },
+        {
+          title: "Structural framework (Gharif)",
+          text: "Retained fault network; updated stratigraphic tops from new well data; revised zonation to sequence-package correlation (5 Upper + 2 Middle Gharif zones) on ~4.3M-cell grid over 10–12 km².",
+        },
+        {
+          title: "Facies & properties",
+          text: "SIS facies (RPD method, WAFRA-6 core); SGS porosity facies-conditioned with normal score transform; permeability SGS co-kriged with porosity; NTG and SHF-by-zone saturation from 2010/11 DSC study.",
+        },
+        {
+          title: "Fluid contacts & Sw",
+          text: "Revised contacts using stick-plots (production, pressure, logs) across seven zones; SHF applied per zone; validated with Sw cutoff on early producers.",
+        },
+        {
+          title: "Volumetrics & ROCM linkage",
+          text: "STOIIP low/mid/high scenarios and flank uncertainty assessed; UG2 and UG3 history-matched in ROCM — enabling BCO and infill screening (2 BCOs UG2, 3 BCOs UG3, 8 infill targets). PDO TA2 endorsement scoped to ML workflow.",
+        },
+      ],
+      deliverables: [
+        "Updated Petrel static model (structure, zonation, properties)",
+        "Sequence-package Gharif zonation (legacy sand-to-sand replaced)",
+        "Seven-zone fluid contact compilation",
+        "Facies / porosity / permeability / saturation models",
+        "STOIIP uncertainty scenarios (TA2-assured scope)",
+        "BCO and infill opportunity screening inputs (UG2, UG3)",
+        "POSEIDON study deck (9 slides)",
+      ],
+      tags: [
+        "Petrel",
+        "Three60",
+        "PDO",
+        "Brownfield",
+        "Gharif",
+        "STOIIP",
+        "ROCM",
+      ],
+    },
     mako: {
       region: "Indonesia · Natuna Sea · Conrad",
       title: "Conrad Mako Gas Field — Model Update 2023",

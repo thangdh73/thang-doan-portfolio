@@ -328,14 +328,23 @@
             </div>
             <p class="project-card__cta">View AI fault workflow</p>
           </article>
-          <article class="project-card fade-in">
-            <p class="project-card__region">Oman · PDO</p>
-            <h3 class="project-card__title">Data Analysis &amp; Optimization (Brownfield)</h3>
-            <p class="project-card__desc">Geological modelling of two large mature onshore fields (100+ wells); stratigraphic revisit and property modelling for history-matching and development forecasting.</p>
+          <article
+            class="project-card project-card--detail fade-in"
+            data-project-detail="poseidon"
+            tabindex="0"
+            role="button"
+            aria-label="Poseidon Wafra Field — view static model study"
+            aria-haspopup="dialog"
+          >
+            <p class="project-card__region">Oman · PDO · Wafra Field</p>
+            <h3 class="project-card__title">Poseidon — Static Model Build &amp; Update</h3>
+            <p class="project-card__desc">Three60 / POSEIDON AI-driven study: legacy Petrel repair, Gharif structural framework, sequence-package zonation, facies/properties, fluid contacts, and STOIIP scenarios for mature brownfield development.</p>
             <div class="project-card__tags">
+              <span class="tag">Petrel</span>
               <span class="tag">Brownfield</span>
-              <span class="tag">AI Data-Driven</span>
+              <span class="tag">PDO</span>
             </div>
+            <p class="project-card__cta">View static model study (PDF)</p>
           </article>
           <article
             class="project-card project-card--detail fade-in"
@@ -901,7 +910,7 @@
 
   <script src="js/site-config.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/project-details.js?v=mako-pdf-1"></script>
+  <script src="js/project-details.js?v=poseidon-1"></script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>

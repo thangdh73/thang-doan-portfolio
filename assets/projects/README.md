@@ -1,5 +1,22 @@
 # Project figures
 
+## POSEIDON — Wafra Field static model (PDO)
+
+| File | Description |
+|------|-------------|
+| `poseidon-static-model.pdf` | 9-slide POSEIDON / Three60 static model build & update study |
+
+Copy from Downloads:
+
+```powershell
+.\copy-poseidon-pdf.ps1
+git add assets/projects/poseidon-static-model.pdf index.html js/project-details.js
+git commit -m "Add Poseidon Wafra static model PDF viewer"
+git push origin main
+```
+
+---
+
 ## Conrad Mako Gas Field (portfolio deck)
 
 | File | Description |
