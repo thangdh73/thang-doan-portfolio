@@ -6,11 +6,11 @@ Vercel also proxies `/tools/stochastic-volume/health` using `STOCHASTIC_API_URL`
 
 ## API (Render — free)
 
-Deploy once (no credit card on free tier):
+Deploy once (no credit card on free tier) — **owner only**:
 
-**https://render.com/deploy?repo=https://github.com/thangdh73/stochastic-vol-api**
+Render Dashboard → **New** → **Blueprint** → connect `thangdh73/stochastic-vol-api` → Apply `render.yaml`.
 
-- Sign in / sign up → connect GitHub → **Apply** blueprint
+Do not use unauthorized copies; see [LICENSE](https://github.com/thangdh73/stochastic-vol-api/blob/main/LICENSE).
 - Health: https://stochastic-vol-api.onrender.com/health → `"status":"ok"`
 - Free tier **spins down after ~15 min idle**; first request after sleep is slow (30–60 s) — OK for a portfolio demo
 - Saved projects in the API SQLite DB are **ephemeral** (reset on spin-down/redeploy). Use **Export project file** (`.mmra.json`) for persistence.
