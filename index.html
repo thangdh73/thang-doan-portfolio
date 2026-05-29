@@ -568,18 +568,18 @@
             <p class="technical-spotlight__eyebrow">Monte Carlo · runs in your browser</p>
             <h3 id="stochastic-tool-title" class="technical-spotlight__title">Stochastic volume calculator</h3>
             <p class="technical-spotlight__desc">
-              Screen STOIIP uncertainty the way you would in GeoX or @Risk — enter P90 / P50 / P10 ranges for area, net pay, porosity, water saturation, and Bo,
-              then run <strong>5,000 Monte Carlo trials</strong> and get a full histogram with P10, P50, and P90 volumes. Private: nothing is uploaded.
+              Full <strong>stochastic volume calculation</strong> app — multi-tank Monte Carlo, P10 / P50 / P90, tornado sensitivity, project save &amp; export.
+              Also includes a quick STOIIP screen in the Data Lab (5,000 trials, runs fully in your browser).
             </p>
             <ul class="technical-spotlight__list">
-              <li>Triangular distributions on each input (industry-standard low / base / high)</li>
-              <li>Instant P90 · P50 · P10 MMSTB summary + exportable chart</li>
-              <li>Deterministic mode still available for quick single-case checks</li>
+              <li>Multi-tank oil &amp; gas volumetrics with distribution QC</li>
+              <li>Tornado charts and exportable project files</li>
+              <li>Quick browser-only STOIIP screen in Data Lab</li>
             </ul>
           </div>
           <div class="technical-spotlight__actions">
-            <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="btn btn--primary">Try stochastic STOIIP</a>
-            <a href="tools/data-lab.html?mode=volume" class="btn btn--outline">Open volume tab</a>
+            <a href="tools/stochastic-volume/" class="btn btn--primary">Open stochastic calculator</a>
+            <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="btn btn--outline">Quick STOIIP (Data Lab)</a>
           </div>
         </article>
 
@@ -598,7 +598,8 @@
             </ul>
           </div>
           <div class="technical-hero__actions">
-            <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="btn btn--primary">Stochastic STOIIP</a>
+            <a href="tools/stochastic-volume/" class="btn btn--primary">Stochastic volume calculation</a>
+            <a href="tools/data-lab.html" class="btn btn--outline">Open Data Lab</a>
             <a href="tools/data-lab.html?mode=crossplot&amp;sample=1" class="btn btn--outline">Try sample crossplot</a>
           </div>
         </article>
@@ -616,6 +617,10 @@
             <span class="technical-quick-nav__icon" aria-hidden="true">◎</span>
             <span class="technical-quick-nav__label">Stochastic STOIIP</span>
             <span class="technical-quick-nav__badge">New</span>
+          </a>
+          <a href="tools/stochastic-volume/" class="technical-quick-nav__item">
+            <span class="technical-quick-nav__icon" aria-hidden="true">◉</span>
+            <span class="technical-quick-nav__label">Monte Carlo</span>
           </a>
           <a href="assets/technical/sample-well-data.csv" class="technical-quick-nav__item" download>
             <span class="technical-quick-nav__icon" aria-hidden="true">↓</span>
@@ -669,10 +674,10 @@
               <figcaption>Histogram · property QC</figcaption>
             </figure>
             <figure class="technical-gallery__slot">
-              <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="technical-gallery__link">
-                <img src="assets/technical/stochastic-volume.svg" alt="Stochastic STOIIP probability distribution with P10 P50 P90" width="640" height="400" loading="lazy">
+              <a href="tools/stochastic-volume/" class="technical-gallery__link">
+                <img src="assets/technical/stochastic-volume.svg" alt="Stochastic volume calculation — Monte Carlo distribution" width="640" height="400" loading="lazy">
               </a>
-              <figcaption>Stochastic · P10 / P50 / P90 volumes</figcaption>
+              <figcaption>Stochastic · Monte Carlo volumes</figcaption>
             </figure>
           </div>
         </details>
