@@ -1216,6 +1216,85 @@ body.project-modal-open {
 }
 
 /* Technical Corner */
+.technical-spotlight {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-lg);
+  align-items: center;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.12) 0%, rgba(45, 212, 191, 0.08) 40%, rgba(36, 48, 68, 0.95) 100%);
+  border: 1px solid rgba(201, 162, 39, 0.45);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.technical-spotlight__badge {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  padding: 0.2rem 0.55rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0f1419;
+  background: var(--color-gold);
+  border-radius: 999px;
+}
+
+.technical-spotlight__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 0.35rem;
+}
+
+.technical-spotlight__title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--space-xs);
+}
+
+.technical-spotlight__desc {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  max-width: 42rem;
+  line-height: 1.55;
+  margin-bottom: var(--space-sm);
+}
+
+.technical-spotlight__list {
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.technical-spotlight__list li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.35rem;
+}
+
+.technical-spotlight__list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.technical-spotlight__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 12rem;
+}
+
 .technical-hero {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -1319,6 +1398,19 @@ body.project-modal-open {
 .technical-quick-nav__icon {
   font-size: 1.25rem;
   color: var(--color-accent);
+}
+
+.technical-quick-nav__item--highlight {
+  border-color: rgba(201, 162, 39, 0.55);
+  background: rgba(201, 162, 39, 0.08);
+}
+
+.technical-quick-nav__badge {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gold);
 }
 
 .technical-columns {
@@ -1448,6 +1540,16 @@ body.project-modal-open {
 }
 
 @media (max-width: 900px) {
+  .technical-spotlight {
+    grid-template-columns: 1fr;
+  }
+
+  .technical-spotlight__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
   .technical-hero {
     grid-template-columns: 1fr;
   }

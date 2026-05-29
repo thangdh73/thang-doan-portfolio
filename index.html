@@ -558,9 +558,30 @@
           <span class="section__label">Technical Corner</span>
           <h2 id="technical-title" class="section__title">Analytics &amp; subsurface tools</h2>
           <p class="section__subtitle">
-            Interactive lab for CSV-based QC plus depth in volumetrics, uncertainty, and geoscience data science from 28+ years of project work.
+            Interactive lab for CSV QC, <strong>stochastic volumetrics</strong>, and geoscience analytics — built from 28+ years of resource evaluation work.
           </p>
         </header>
+
+        <article class="technical-spotlight fade-in" aria-labelledby="stochastic-tool-title">
+          <div class="technical-spotlight__badge">New</div>
+          <div class="technical-spotlight__body">
+            <p class="technical-spotlight__eyebrow">Monte Carlo · runs in your browser</p>
+            <h3 id="stochastic-tool-title" class="technical-spotlight__title">Stochastic volume calculator</h3>
+            <p class="technical-spotlight__desc">
+              Screen STOIIP uncertainty the way you would in GeoX or @Risk — enter P90 / P50 / P10 ranges for area, net pay, porosity, water saturation, and Bo,
+              then run <strong>5,000 Monte Carlo trials</strong> and get a full histogram with P10, P50, and P90 volumes. Private: nothing is uploaded.
+            </p>
+            <ul class="technical-spotlight__list">
+              <li>Triangular distributions on each input (industry-standard low / base / high)</li>
+              <li>Instant P90 · P50 · P10 MMSTB summary + exportable chart</li>
+              <li>Deterministic mode still available for quick single-case checks</li>
+            </ul>
+          </div>
+          <div class="technical-spotlight__actions">
+            <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="btn btn--primary">Try stochastic STOIIP</a>
+            <a href="tools/data-lab.html?mode=volume" class="btn btn--outline">Open volume tab</a>
+          </div>
+        </article>
 
         <article class="technical-hero fade-in">
           <div class="technical-hero__thumb" aria-hidden="true">
@@ -569,15 +590,15 @@
           <div class="technical-hero__main">
             <p class="technical-hero__eyebrow">Live browser tool</p>
             <h3 class="technical-hero__title">Data Analysis Lab</h3>
-            <p class="technical-hero__desc">Upload CSV or Excel, build crossplots and histograms, or run deterministic STOIIP. Your files never leave your computer.</p>
+            <p class="technical-hero__desc">Crossplots, histograms, deterministic STOIIP, and the new <strong>stochastic volume calculator</strong> with Monte Carlo P10 / P50 / P90. Your files never leave your computer.</p>
             <ul class="technical-hero__steps">
               <li>Upload CSV / Excel or load sample data</li>
-              <li>Choose crossplot, histogram, or volume mode</li>
-              <li>Export charts as PNG from the plot toolbar</li>
+              <li>Run stochastic volumes or property QC charts</li>
+              <li>Export histograms and crossplots as PNG</li>
             </ul>
           </div>
           <div class="technical-hero__actions">
-            <a href="tools/data-lab.html" class="btn btn--primary">Open Data Lab</a>
+            <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="btn btn--primary">Stochastic STOIIP</a>
             <a href="tools/data-lab.html?mode=crossplot&amp;sample=1" class="btn btn--outline">Try sample crossplot</a>
           </div>
         </article>
@@ -591,9 +612,10 @@
             <span class="technical-quick-nav__icon" aria-hidden="true">▤</span>
             <span class="technical-quick-nav__label">Histogram</span>
           </a>
-          <a href="tools/data-lab.html?mode=volume" class="technical-quick-nav__item">
-            <span class="technical-quick-nav__icon" aria-hidden="true">∑</span>
-            <span class="technical-quick-nav__label">STOIIP</span>
+          <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="technical-quick-nav__item technical-quick-nav__item--highlight">
+            <span class="technical-quick-nav__icon" aria-hidden="true">◎</span>
+            <span class="technical-quick-nav__label">Stochastic STOIIP</span>
+            <span class="technical-quick-nav__badge">New</span>
           </a>
           <a href="assets/technical/sample-well-data.csv" class="technical-quick-nav__item" download>
             <span class="technical-quick-nav__icon" aria-hidden="true">↓</span>
@@ -605,8 +627,8 @@
           <article class="technical-block">
             <h3 class="technical-block__title">Volume &amp; resource evaluation</h3>
             <ul class="technical-block__list">
-              <li>Deterministic and stochastic STOIIP/GIIP screening</li>
-              <li>P10 / P50 / P90 and risked volume workflows (GeoX, @Risk, Crystal Ball)</li>
+              <li><strong>Stochastic STOIIP</strong> — Monte Carlo P10 / P50 / P90 in the Data Lab</li>
+              <li>Deterministic and probabilistic GIIP screening workflows</li>
               <li>Static-model-based resource assessment for FDP and due diligence</li>
             </ul>
             <div class="technical-block__tags">
@@ -647,10 +669,10 @@
               <figcaption>Histogram · property QC</figcaption>
             </figure>
             <figure class="technical-gallery__slot">
-              <a href="tools/data-lab.html?mode=volume" class="technical-gallery__link">
-                <img src="assets/technical/stochastic-volume.svg" alt="STOIIP probability distribution" width="640" height="400" loading="lazy">
+              <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="technical-gallery__link">
+                <img src="assets/technical/stochastic-volume.svg" alt="Stochastic STOIIP probability distribution with P10 P50 P90" width="640" height="400" loading="lazy">
               </a>
-              <figcaption>Stochastic · volume distribution</figcaption>
+              <figcaption>Stochastic · P10 / P50 / P90 volumes</figcaption>
             </figure>
           </div>
         </details>

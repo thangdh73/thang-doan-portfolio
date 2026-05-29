@@ -13,7 +13,8 @@
 |------|--------|
 | `tools/data-lab.html?mode=crossplot` | Crossplot tab |
 | `tools/data-lab.html?mode=histogram` | Histogram tab |
-| `tools/data-lab.html?mode=volume` | STOIIP calculator |
+| `tools/data-lab.html?mode=volume` | Volume tab (deterministic or stochastic) |
+| `tools/data-lab.html?mode=volume&stochastic=1` | **Stochastic STOIIP** — Monte Carlo P10/P50/P90 |
 | `tools/data-lab.html?mode=crossplot&sample=1` | Sample data + crossplot |
 
 ## Case study screenshots (optional)

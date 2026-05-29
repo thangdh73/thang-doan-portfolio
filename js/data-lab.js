@@ -30,6 +30,7 @@
   let columns = [];
   let numericColumns = [];
   let chartMode = "crossplot";
+  let volumeMode = "stochastic";
   let plotlyLoadPromise = null;
   let plotLoadingTimer = null;
 
@@ -64,6 +65,11 @@
     volumeResult: document.getElementById("volume-result"),
     volumeStoiip: document.getElementById("volume-stoiip"),
     volumeDetail: document.getElementById("volume-detail"),
+    volumePercentiles: document.getElementById("volume-percentiles"),
+    volModeDet: document.getElementById("vol-mode-det"),
+    volModeStoch: document.getElementById("vol-mode-stoch"),
+    volPanelDet: document.getElementById("vol-panel-det"),
+    volPanelStoch: document.getElementById("vol-panel-stoch"),
     chartOnlyActions: document.querySelector(".chart-only-actions"),
     plotLoading: document.getElementById("plot-loading"),
     panelCrossplot: document.getElementById("panel-crossplot"),
@@ -578,7 +584,212 @@
       });
   }
 
+  function stoiipMmstb(areaKm2, h, phi, sw, bo) {
+    const areaM2 = areaKm2 * 1e6;
+    const volResM3 = areaM2 * h * phi * (1 - sw);
+    return (volResM3 * 6.28981) / bo / 1e6;
+  }
+
+  function triangularSample(p90, p50, p10) {
+    const low = Math.min(p90, p10);
+    const high = Math.max(p90, p10);
+    let mode = Math.min(Math.max(p50, low), high);
+    if (high <= low) return mode;
+    const u = Math.random();
+    const fc = (mode - low) / (high - low);
+    if (u < fc) return low + Math.sqrt(u * (high - low) * (mode - low));
+    return high - Math.sqrt((1 - u) * (high - low) * (high - mode));
+  }
+
+  function clampPhiSw(phi, sw) {
+    return {
+      phi: Math.min(1, Math.max(0, phi)),
+      sw: Math.min(1, Math.max(0, sw)),
+    };
+  }
+
+  function percentile(sorted, p) {
+    if (!sorted.length) return NaN;
+    const idx = (sorted.length - 1) * p;
+    const lo = Math.floor(idx);
+    const hi = Math.ceil(idx);
+    if (lo === hi) return sorted[lo];
+    return sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+  }
+
+  function readStochTriplet(prefix) {
+    const p90 = parseFloat(document.getElementById("st-" + prefix + "-p90").value);
+    const p50 = parseFloat(document.getElementById("st-" + prefix + "-p50").value);
+    const p10 = parseFloat(document.getElementById("st-" + prefix + "-p10").value);
+    return { p90: p90, p50: p50, p10: p10 };
+  }
+
+  function validateTriplet(label, t, opts) {
+    if (![t.p90, t.p50, t.p10].every(Number.isFinite)) {
+      showMessage(label + ": enter valid P90, P50, and P10 values.", "error");
+      return false;
+    }
+    if (opts && opts.min !== undefined && (t.p90 < opts.min || t.p50 < opts.min || t.p10 < opts.min)) {
+      showMessage(label + ": values must be ≥ " + opts.min + ".", "error");
+      return false;
+    }
+    if (opts && opts.max !== undefined && (t.p90 > opts.max || t.p50 > opts.max || t.p10 > opts.max)) {
+      showMessage(label + ": values must be ≤ " + opts.max + ".", "error");
+      return false;
+    }
+    return true;
+  }
+
+  function setVolumeMode(mode) {
+    volumeMode = mode;
+    const isStoch = mode === "stochastic";
+    if (els.volModeDet) {
+      els.volModeDet.classList.toggle("is-active", !isStoch);
+      els.volModeDet.setAttribute("aria-selected", String(!isStoch));
+    }
+    if (els.volModeStoch) {
+      els.volModeStoch.classList.toggle("is-active", isStoch);
+      els.volModeStoch.setAttribute("aria-selected", String(isStoch));
+    }
+    if (els.volPanelDet) els.volPanelDet.hidden = isStoch;
+    if (els.volPanelStoch) els.volPanelStoch.hidden = !isStoch;
+    if (els.volCalcBtn) {
+      els.volCalcBtn.textContent = isStoch ? "Run Monte Carlo" : "Calculate STOIIP";
+    }
+    if (chartMode === "volume") calculateVolume();
+  }
+
+  function renderVolumeStatsHtml(p90, p50, p10) {
+    return (
+      '<div class="stats-panel__title">STOIIP percentiles (MMSTB)</div>' +
+      '<table class="stats-table"><tbody>' +
+      "<tr><td>P90 (low)</td><td>" + p90.toFixed(2) + "</td></tr>" +
+      "<tr><td>P50</td><td><strong>" + p50.toFixed(2) + "</strong></td></tr>" +
+      "<tr><td>P10 (high)</td><td>" + p10.toFixed(2) + "</td></tr>" +
+      "</tbody></table>"
+    );
+  }
+
+  function calculateStochasticVolume() {
+    const area = readStochTriplet("area");
+    const pay = readStochTriplet("pay");
+    const phi = readStochTriplet("phi");
+    const sw = readStochTriplet("sw");
+    const bo = readStochTriplet("bo");
+
+    if (
+      !validateTriplet("Area", area, { min: 0 }) ||
+      !validateTriplet("Net pay", pay, { min: 0 }) ||
+      !validateTriplet("Porosity", phi, { min: 0, max: 1 }) ||
+      !validateTriplet("Water saturation", sw, { min: 0, max: 1 }) ||
+      !validateTriplet("Bo", bo, { min: 0.1 })
+    ) {
+      return;
+    }
+
+    const trials = 5000;
+    const samples = [];
+    for (let i = 0; i < trials; i++) {
+      const a = triangularSample(area.p90, area.p50, area.p10);
+      const h = triangularSample(pay.p90, pay.p50, pay.p10);
+      const p = clampPhiSw(
+        triangularSample(phi.p90, phi.p50, phi.p10),
+        triangularSample(sw.p90, sw.p50, sw.p10)
+      );
+      const b = triangularSample(bo.p90, bo.p50, bo.p10);
+      if (b <= 0) continue;
+      samples.push(stoiipMmstb(a, h, p.phi, p.sw, b));
+    }
+
+    if (!samples.length) {
+      showMessage("Could not generate stochastic samples. Check inputs.", "error");
+      return;
+    }
+
+    samples.sort(function (a, b) {
+      return a - b;
+    });
+    const p90Vol = percentile(samples, 0.1);
+    const p50Vol = percentile(samples, 0.5);
+    const p10Vol = percentile(samples, 0.9);
+
+    hideMessage();
+    if (els.volumeResult) els.volumeResult.hidden = false;
+    if (els.volumeStoiip) {
+      els.volumeStoiip.textContent = "P50: " + p50Vol.toFixed(2) + " MMSTB";
+    }
+    if (els.volumeDetail) {
+      els.volumeDetail.textContent =
+        "P90 " +
+        p90Vol.toFixed(2) +
+        " · P10 " +
+        p10Vol.toFixed(2) +
+        " MMSTB · " +
+        trials.toLocaleString() +
+        " Monte Carlo trials";
+    }
+    if (els.volumePercentiles) {
+      els.volumePercentiles.hidden = false;
+      els.volumePercentiles.innerHTML =
+        '<div class="volume-percentiles__cell volume-percentiles__cell--p90">' +
+        '<span class="volume-percentiles__label">P90</span>' +
+        '<span class="volume-percentiles__value">' +
+        p90Vol.toFixed(1) +
+        "</span>" +
+        '<span class="volume-percentiles__unit">MMSTB</span></div>' +
+        '<div class="volume-percentiles__cell volume-percentiles__cell--p50">' +
+        '<span class="volume-percentiles__label">P50</span>' +
+        '<span class="volume-percentiles__value">' +
+        p50Vol.toFixed(1) +
+        "</span>" +
+        '<span class="volume-percentiles__unit">MMSTB</span></div>' +
+        '<div class="volume-percentiles__cell volume-percentiles__cell--p10">' +
+        '<span class="volume-percentiles__label">P10</span>' +
+        '<span class="volume-percentiles__value">' +
+        p10Vol.toFixed(1) +
+        "</span>" +
+        '<span class="volume-percentiles__unit">MMSTB</span></div>';
+    }
+    if (els.stats) els.stats.innerHTML = renderVolumeStatsHtml(p90Vol, p50Vol, p10Vol);
+
+    if (els.plotDiv && typeof Plotly !== "undefined") {
+      const trace = {
+        x: samples,
+        type: "histogram",
+        nbinsx: 40,
+        marker: { color: "rgba(45, 212, 191, 0.75)", line: { color: "#0f1419", width: 0.5 } },
+        name: "STOIIP",
+      };
+      const layout = JSON.parse(JSON.stringify(PLOT_LAYOUT));
+      layout.title = {
+        text: "Stochastic STOIIP — Monte Carlo distribution",
+        font: { size: 14, color: "#e8eaed" },
+      };
+      layout.xaxis.title = "STOIIP (MMSTB)";
+      layout.yaxis.title = "Frequency";
+      layout.bargap = 0.03;
+      layout.shapes = [
+        { type: "line", x0: p90Vol, x1: p90Vol, y0: 0, y1: 1, yref: "paper", line: { color: "#fbbf24", width: 2, dash: "dot" } },
+        { type: "line", x0: p50Vol, x1: p50Vol, y0: 0, y1: 1, yref: "paper", line: { color: "#2dd4bf", width: 2 } },
+        { type: "line", x0: p10Vol, x1: p10Vol, y0: 0, y1: 1, yref: "paper", line: { color: "#60a5fa", width: 2, dash: "dot" } },
+      ];
+      layout.annotations = [
+        { x: p90Vol, y: 1.02, xref: "x", yref: "paper", text: "P90", showarrow: false, font: { size: 10, color: "#fbbf24" } },
+        { x: p50Vol, y: 1.02, xref: "x", yref: "paper", text: "P50", showarrow: false, font: { size: 10, color: "#2dd4bf" } },
+        { x: p10Vol, y: 1.02, xref: "x", yref: "paper", text: "P10", showarrow: false, font: { size: 10, color: "#60a5fa" } },
+      ];
+      ensurePlotly().then(function () {
+        Plotly.newPlot(els.plotDiv, [trace], layout, PLOT_CONFIG);
+      });
+    }
+  }
+
   function calculateVolume() {
+    if (volumeMode === "stochastic") {
+      calculateStochasticVolume();
+      return;
+    }
+
     const areaKm2 = parseFloat(els.volArea.value);
     const h = parseFloat(els.volPay.value);
     const phi = parseFloat(els.volPhi.value);
@@ -601,6 +812,7 @@
 
     hideMessage();
     if (els.volumeResult) els.volumeResult.hidden = false;
+    if (els.volumePercentiles) els.volumePercentiles.hidden = true;
     if (els.volumeStoiip) {
       els.volumeStoiip.textContent = mmstb.toFixed(2) + " MMSTB";
     }
@@ -772,6 +984,14 @@
       setChartMode("volume");
     });
   if (els.volCalcBtn) els.volCalcBtn.addEventListener("click", calculateVolume);
+  if (els.volModeDet)
+    els.volModeDet.addEventListener("click", function () {
+      setVolumeMode("deterministic");
+    });
+  if (els.volModeStoch)
+    els.volModeStoch.addEventListener("click", function () {
+      setVolumeMode("stochastic");
+    });
 
   [els.colX, els.colY, els.colHist, els.colColor, els.bins, els.logX, els.logY].forEach(
     function (el) {
@@ -785,6 +1005,9 @@
     setChartMode(modeParam);
   } else {
     setChartMode("crossplot");
+  }
+  if (params.get("stochastic") === "1" || modeParam === "volume") {
+    setVolumeMode("stochastic");
   }
   if (params.get("sample") === "1") {
     if (document.readyState === "loading") {

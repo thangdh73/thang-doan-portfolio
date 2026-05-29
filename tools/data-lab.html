@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Upload CSV data — crossplots, histograms, and STOIIP calculator. Thang Doan Data Analysis Lab.">
+  <meta name="description" content="Stochastic STOIIP calculator with P10/P50/P90 Monte Carlo, plus crossplots and histograms. Runs in your browser — no upload. Thang Doan Data Analysis Lab.">
   <title>Data Analysis Lab | Thang Doan</title>
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +24,7 @@
         <a href="?mode=crossplot">Crossplot</a>
         <a href="?mode=histogram">Histogram</a>
         <a href="?mode=volume">Volume</a>
+        <a href="?mode=volume&amp;stochastic=1">Stochastic</a>
       </nav>
       <a href="../index.html" class="btn btn--outline btn--small">Portfolio</a>
     </div>
@@ -34,8 +35,8 @@
       <header class="lab-page-header">
         <h1 class="lab-page-header__title">Data Analysis Lab</h1>
         <p class="lab-intro">
-          Client-side analytics for geoscience CSV and Excel files — <strong>no upload to any server</strong>.
-          Export charts via the camera icon on each plot.
+          Client-side analytics for geoscience CSV and Excel — <strong>no upload to any server</strong>.
+          New: <strong>stochastic STOIIP</strong> with Monte Carlo P10 / P50 / P90. Export charts via the camera icon.
         </p>
       </header>
 
@@ -100,32 +101,55 @@
 
             <div id="panel-volume" class="volume-only" role="tabpanel" hidden>
               <p class="volume-formula">STOIIP: V = A × h × φ × (1 − S<sub>w</sub>) / B<sub>o</sub></p>
-              <div class="lab-controls">
-                <div>
-                  <label for="vol-area">Area (km²)</label>
-                  <input type="number" id="vol-area" step="any" min="0" value="10" />
-                </div>
-                <div>
-                  <label for="vol-pay">Net pay h (m)</label>
-                  <input type="number" id="vol-pay" step="any" min="0" value="25" />
-                </div>
-                <div>
-                  <label for="vol-phi">Porosity φ</label>
-                  <input type="number" id="vol-phi" step="any" min="0" max="1" value="0.18" />
-                </div>
-                <div>
-                  <label for="vol-sw">Water sat. S<sub>w</sub></label>
-                  <input type="number" id="vol-sw" step="any" min="0" max="1" value="0.28" />
-                </div>
-                <div>
-                  <label for="vol-bo">FVF B<sub>o</sub> (rb/stb)</label>
-                  <input type="number" id="vol-bo" step="any" min="0.1" value="1.25" />
+              <div class="volume-mode-tabs" role="tablist" aria-label="Volume calculation mode">
+                <button type="button" id="vol-mode-det" class="volume-mode-tabs__btn" role="tab" aria-selected="false">Deterministic</button>
+                <button type="button" id="vol-mode-stoch" class="volume-mode-tabs__btn is-active" role="tab" aria-selected="true">
+                  Stochastic <span class="volume-mode-tabs__new">New</span>
+                </button>
+              </div>
+
+              <div id="vol-panel-det" class="vol-mode-panel" hidden>
+                <div class="lab-controls">
+                  <div>
+                    <label for="vol-area">Area (km²)</label>
+                    <input type="number" id="vol-area" step="any" min="0" value="10" />
+                  </div>
+                  <div>
+                    <label for="vol-pay">Net pay h (m)</label>
+                    <input type="number" id="vol-pay" step="any" min="0" value="25" />
+                  </div>
+                  <div>
+                    <label for="vol-phi">Porosity φ</label>
+                    <input type="number" id="vol-phi" step="any" min="0" max="1" value="0.18" />
+                  </div>
+                  <div>
+                    <label for="vol-sw">Water sat. S<sub>w</sub></label>
+                    <input type="number" id="vol-sw" step="any" min="0" max="1" value="0.28" />
+                  </div>
+                  <div>
+                    <label for="vol-bo">FVF B<sub>o</sub> (rb/stb)</label>
+                    <input type="number" id="vol-bo" step="any" min="0.1" value="1.25" />
+                  </div>
                 </div>
               </div>
-              <button type="button" id="vol-calc-btn" class="btn btn--primary btn--small lab-btn-full">Calculate STOIIP</button>
+
+              <div id="vol-panel-stoch" class="vol-mode-panel">
+                <p class="volume-stoch-hint">Enter <strong>P90 / P50 / P10</strong> for each input (P90 = low case, P10 = high case). Uses triangular distributions · 5,000 Monte Carlo trials.</p>
+                <div class="volume-stoch-grid" role="group" aria-label="Stochastic input ranges">
+                  <div class="volume-stoch-grid__head" aria-hidden="true"><span>Input</span><span>P90</span><span>P50</span><span>P10</span></div>
+                  <label class="volume-stoch-row"><span>Area (km²)</span><input type="number" id="st-area-p90" step="any" min="0" value="8" /><input type="number" id="st-area-p50" step="any" min="0" value="10" /><input type="number" id="st-area-p10" step="any" min="0" value="12" /></label>
+                  <label class="volume-stoch-row"><span>Net pay h (m)</span><input type="number" id="st-pay-p90" step="any" min="0" value="20" /><input type="number" id="st-pay-p50" step="any" min="0" value="25" /><input type="number" id="st-pay-p10" step="any" min="0" value="32" /></label>
+                  <label class="volume-stoch-row"><span>Porosity φ</span><input type="number" id="st-phi-p90" step="any" min="0" max="1" value="0.15" /><input type="number" id="st-phi-p50" step="any" min="0" max="1" value="0.18" /><input type="number" id="st-phi-p10" step="any" min="0" max="1" value="0.22" /></label>
+                  <label class="volume-stoch-row"><span>Water sat. S<sub>w</sub></span><input type="number" id="st-sw-p90" step="any" min="0" max="1" value="0.35" /><input type="number" id="st-sw-p50" step="any" min="0" max="1" value="0.28" /><input type="number" id="st-sw-p10" step="any" min="0" max="1" value="0.22" /></label>
+                  <label class="volume-stoch-row"><span>FVF B<sub>o</sub></span><input type="number" id="st-bo-p90" step="any" min="0.1" value="1.35" /><input type="number" id="st-bo-p50" step="any" min="0.1" value="1.25" /><input type="number" id="st-bo-p10" step="any" min="0.1" value="1.15" /></label>
+                </div>
+              </div>
+
+              <button type="button" id="vol-calc-btn" class="btn btn--primary btn--small lab-btn-full">Run Monte Carlo</button>
               <div id="volume-result" class="volume-result" hidden>
                 <div class="volume-result__value" id="volume-stoiip"></div>
                 <div class="volume-result__detail" id="volume-detail"></div>
+                <div id="volume-percentiles" class="volume-percentiles" hidden></div>
               </div>
             </div>
 
