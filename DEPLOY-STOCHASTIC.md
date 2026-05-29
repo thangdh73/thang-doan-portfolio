@@ -47,6 +47,28 @@ If you used Fly.io earlier:
 flyctl apps destroy stochastic-vol-api --yes
 ```
 
+## Enable login (Render environment)
+
+Generate secrets locally:
+
+```powershell
+cd "d:\1-Projects\8-Python code\MMRA_New_UI"
+.\deploy\setup-auth-env.ps1
+```
+
+In **Render** → **stochastic-vol-api** → **Environment**, add:
+
+| Variable | Example |
+|----------|---------|
+| `MMRA_JWT_SECRET` | long random string (from script) |
+| `MMRA_AUTH_USERS` | `you@email.com:YourPassword` |
+
+Multiple users: `user1@a.com:pass1,user2@b.com:pass2`
+
+Redeploy the API after saving. The UI shows a login page when `auth_enabled` is true.
+
+Local dev without login: leave `MMRA_AUTH_USERS` unset.
+
 ## Verify
 
 - https://thang-doan.vercel.app/tools/stochastic-volume/
