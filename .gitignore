@@ -8,3 +8,13 @@ _github-push-log.txt
 _push-out.txt
 _push-status.txt
 _gh-path.txt
+.vercel/
+_echo-redir-test.txt
+_run_copy.ps1
+_run_testpath.ps1
+_t.txt
+assets/projects/mako-slides/
+assets/projects/_pptx_tmp/
+assets/projects/mako-slides-manifest.txt
+assets/projects/marko-pptx-extract-report.json
+assets/projects/marko-reservoir-modeling-portfolio.pptx

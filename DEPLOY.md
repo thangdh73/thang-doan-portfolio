@@ -9,7 +9,7 @@ email: "you@company.com",
 phone: "+84 ...",
 location: "City, Country",
 linkedin: "https://www.linkedin.com/in/your-handle",
-siteUrl: "https://thangdh.vercel.app/",  // Vercel
+siteUrl: "https://thang-doan.vercel.app/",  // Vercel
 ```
 
 Add **`assets/cv.pdf`**.

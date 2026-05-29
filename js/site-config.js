@@ -13,9 +13,9 @@ window.SITE_CONFIG = {
 
   /**
    * Live site URL (Open Graph / social previews).
-   * Vercel production: https://thangdh.vercel.app/
+   * Vercel production: https://thang-doan.vercel.app/
    */
-  siteUrl: "https://thangdh.vercel.app/",
+  siteUrl: "https://thang-doan.vercel.app/",
 
   /**
    * Career start years — experience counts update automatically each year.

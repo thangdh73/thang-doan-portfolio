@@ -32,11 +32,12 @@ After deploy, run from MMRA repo:
 ## Rebuild UI manually
 
 ```powershell
-cd "d:\1-Projects\8-Python code\MMRA_New_UI"
+cd "D:\1-Projects\8-Python code\MMRA_New_UI"
+$env:PORTFOLIO_ROOT = "C:\Users\thang\.cursor\projects\empty-window\thang-doan-portfolio"
 $env:VITE_API_ORIGIN = "https://stochastic-vol-api.onrender.com"
 $env:VITE_API_BASE = ""
 .\deploy\build-personal-site.ps1
-Copy-Item -Recurse -Force "frontend\dist\*" "d:\1-Projects\thang-doan-portfolio\tools\stochastic-volume\"
+Copy-Item -Recurse -Force "frontend\dist\*" "C:\Users\thang\.cursor\projects\empty-window\thang-doan-portfolio\tools\stochastic-volume\"
 ```
 
 ## Stop Fly.io (avoid charges)
@@ -52,7 +53,8 @@ flyctl apps destroy stochastic-vol-api --yes
 Generate secrets locally:
 
 ```powershell
-cd "d:\1-Projects\8-Python code\MMRA_New_UI"
+cd "D:\1-Projects\8-Python code\MMRA_New_UI"
+$env:PORTFOLIO_ROOT = "C:\Users\thang\.cursor\projects\empty-window\thang-doan-portfolio"
 .\deploy\setup-auth-env.ps1
 ```
 

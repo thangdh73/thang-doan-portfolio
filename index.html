@@ -563,23 +563,21 @@
         </header>
 
         <article class="technical-spotlight fade-in" aria-labelledby="stochastic-tool-title">
-          <div class="technical-spotlight__badge">New</div>
           <div class="technical-spotlight__body">
-            <p class="technical-spotlight__eyebrow">Monte Carlo · runs in your browser</p>
-            <h3 id="stochastic-tool-title" class="technical-spotlight__title">Stochastic volume calculator</h3>
+            <p class="technical-spotlight__eyebrow">Monte Carlo volumetrics</p>
+            <h3 id="stochastic-tool-title" class="technical-spotlight__title">Stochastic volume calculation</h3>
             <p class="technical-spotlight__desc">
-              Full <strong>stochastic volume calculation</strong> app — multi-tank Monte Carlo, P10 / P50 / P90, tornado sensitivity, project save &amp; export.
-              Also includes a quick STOIIP screen in the Data Lab (5,000 trials, runs fully in your browser).
+              Portfolio-hosted <strong>stochastic volume calculation</strong> app — multi-tank Monte Carlo, P10 / P50 / P90, tornado sensitivity, project save &amp; export.
+              Built from MMRA and deployed under <code>tools/stochastic-volume/</code> in this portfolio repo.
             </p>
             <ul class="technical-spotlight__list">
               <li>Multi-tank oil &amp; gas volumetrics with distribution QC</li>
-              <li>Tornado charts and exportable project files</li>
-              <li>Quick browser-only STOIIP screen in Data Lab</li>
+              <li>Tornado charts and exportable <code>.mmra.json</code> project files</li>
+              <li>API on Render free tier — see <code>DEPLOY-STOCHASTIC.md</code> in the repo</li>
             </ul>
           </div>
           <div class="technical-spotlight__actions">
-            <a href="tools/stochastic-volume/" class="btn btn--primary">Open stochastic calculator</a>
-            <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="btn btn--outline">Quick STOIIP (Data Lab)</a>
+            <a href="tools/stochastic-volume/" class="btn btn--primary">Open stochastic volume calculation</a>
           </div>
         </article>
 
@@ -590,11 +588,11 @@
           <div class="technical-hero__main">
             <p class="technical-hero__eyebrow">Live browser tool</p>
             <h3 class="technical-hero__title">Data Analysis Lab</h3>
-            <p class="technical-hero__desc">Crossplots, histograms, deterministic STOIIP, and the new <strong>stochastic volume calculator</strong> with Monte Carlo P10 / P50 / P90. Your files never leave your computer.</p>
+            <p class="technical-hero__desc">Crossplots, histograms, and deterministic STOIIP in the Data Lab. Full <strong>stochastic volume calculation</strong> is a separate app (link below). CSV/Excel never leaves your browser in the lab.</p>
             <ul class="technical-hero__steps">
               <li>Upload CSV / Excel or load sample data</li>
-              <li>Run stochastic volumes or property QC charts</li>
-              <li>Export histograms and crossplots as PNG</li>
+              <li>Property QC crossplots and histograms</li>
+              <li>Export charts as PNG from the plot toolbar</li>
             </ul>
           </div>
           <div class="technical-hero__actions">
@@ -613,14 +611,13 @@
             <span class="technical-quick-nav__icon" aria-hidden="true">▤</span>
             <span class="technical-quick-nav__label">Histogram</span>
           </a>
-          <a href="tools/data-lab.html?mode=volume&amp;stochastic=1" class="technical-quick-nav__item technical-quick-nav__item--highlight">
-            <span class="technical-quick-nav__icon" aria-hidden="true">◎</span>
-            <span class="technical-quick-nav__label">Stochastic STOIIP</span>
-            <span class="technical-quick-nav__badge">New</span>
-          </a>
-          <a href="tools/stochastic-volume/" class="technical-quick-nav__item">
+          <a href="tools/stochastic-volume/" class="technical-quick-nav__item technical-quick-nav__item--highlight">
             <span class="technical-quick-nav__icon" aria-hidden="true">◉</span>
-            <span class="technical-quick-nav__label">Monte Carlo</span>
+            <span class="technical-quick-nav__label">Stochastic volumes</span>
+          </a>
+          <a href="tools/data-lab.html?mode=volume" class="technical-quick-nav__item">
+            <span class="technical-quick-nav__icon" aria-hidden="true">∑</span>
+            <span class="technical-quick-nav__label">STOIIP (lab)</span>
           </a>
           <a href="assets/technical/sample-well-data.csv" class="technical-quick-nav__item" download>
             <span class="technical-quick-nav__icon" aria-hidden="true">↓</span>
@@ -632,8 +629,8 @@
           <article class="technical-block">
             <h3 class="technical-block__title">Volume &amp; resource evaluation</h3>
             <ul class="technical-block__list">
-              <li><strong>Stochastic STOIIP</strong> — Monte Carlo P10 / P50 / P90 in the Data Lab</li>
-              <li>Deterministic and probabilistic GIIP screening workflows</li>
+              <li><strong>Stochastic volume calculation</strong> — full Monte Carlo app under <code>tools/stochastic-volume/</code></li>
+              <li>Deterministic STOIIP and GIIP screening in the Data Lab</li>
               <li>Static-model-based resource assessment for FDP and due diligence</li>
             </ul>
             <div class="technical-block__tags">

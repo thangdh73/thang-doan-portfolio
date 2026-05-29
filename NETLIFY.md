@@ -1,5 +1,7 @@
 # Deploy on Netlify (free)
 
+> Netlify may ask you to upgrade. For free hosting without that, use **[GITHUB-PAGES.md](GITHUB-PAGES.md)** (recommended) or **[HOSTING-ALTERNATIVES.md](HOSTING-ALTERNATIVES.md)**.
+
 ## Step 1 — Sign up
 
 1. Go to [https://app.netlify.com/signup](https://app.netlify.com/signup)

@@ -1,98 +1,59 @@
-# Deploy for free (recommended)
+# Deploy for free
 
-Two **100% free** options. No credit card required for basic use.
-
----
-
-## Option A — Netlify Drop (fastest, ~2 minutes)
-
-Best if you want the site online **today** without using Git.
-
-1. Open **[app.netlify.com/drop](https://app.netlify.com/drop)** in your browser.
-2. Sign up free (email or GitHub) if asked.
-3. Drag the entire **`thang-doan-portfolio`** folder onto the page.
-4. Netlify gives you a URL like `https://random-name-123.netlify.app`.
-5. Optional: **Site settings → Domain management → Options → Edit site name** → choose `thang-doan` → URL becomes `https://thang-doan.netlify.app` (if available).
-6. Update **`js/site-config.js`**:
-   ```javascript
-   siteUrl: "https://YOUR-SITE.netlify.app",
-   ```
-7. Drag the folder onto Netlify Drop again (or connect GitHub for auto-updates).
-
-**Limits (free tier):** 100 GB bandwidth/month — more than enough for a personal portfolio.
+Netlify’s free tier has become limited (upgrade prompts). For this portfolio, use one of these instead.
 
 ---
 
-## Option B — GitHub Pages (free, good for updates)
+## Using Vercel (if you have an account)
 
-Best if you use GitHub and want version history.
-
-### 1. Create a GitHub repository
-
-- Go to [github.com/new](https://github.com/new)
-- Name: `thang-doan-portfolio` (or any name)
-- Public → **Create repository**
-
-### 2. Push your site (PowerShell)
-
-```powershell
-cd "C:\Users\thang\.cursor\projects\empty-window\thang-doan-portfolio"
-
-git init
-git add .
-git commit -m "Thang Doan portfolio site"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/thang-doan-portfolio.git
-git push -u origin main
-```
-
-Replace `YOUR_USERNAME` with your GitHub username.
-
-### 3. Enable GitHub Pages
-
-1. Repo → **Settings** → **Pages**
-2. **Source:** Deploy from branch
-3. **Branch:** `main` → folder **`/ (root)`** → **Save**
-4. Wait 1–2 minutes. Site URL:
-   `https://YOUR_USERNAME.github.io/thang-doan-portfolio/`
-
-### 4. Update config
-
-In **`js/site-config.js`**:
-
-```javascript
-siteUrl: "https://YOUR_USERNAME.github.io/thang-doan-portfolio/",
-```
-
-Commit and push again.
+**Guide:** [VERCEL.md](VERCEL.md) — import `thang-doan-portfolio` from GitHub, empty build command, deploy.
 
 ---
 
-## Option C — Vercel (free, similar to Netlify)
+## GitHub Pages (no Vercel account needed)
 
-1. [vercel.com](https://vercel.com) → Sign up free
-2. **Add New Project** → Import from GitHub **or** upload folder
-3. Framework: **Other**, output: `.` (root), no build command
-4. Deploy → copy `.vercel.app` URL into `siteUrl`
+**Guide:** [GITHUB-PAGES.md](GITHUB-PAGES.md)
+
+**Live URL (after you enable Pages):**
+
+`https://thangdh73.github.io/thang-doan-portfolio/`
+
+**Enable once:** Repo → **Settings** → **Pages** → Branch **`main`**, folder **`/ (root)`** → Save.
+
+**Updates:** `git push origin main`
+
+---
+
+## Other free options
+
+| Host | Guide |
+|------|--------|
+| Cloudflare Pages | [HOSTING-ALTERNATIVES.md](HOSTING-ALTERNATIVES.md) §2 |
+| Vercel | [HOSTING-ALTERNATIVES.md](HOSTING-ALTERNATIVES.md) §3 |
+
+Full comparison: **[HOSTING-ALTERNATIVES.md](HOSTING-ALTERNATIVES.md)**
 
 ---
 
 ## After deploy
 
-| Step | Action |
-|------|--------|
-| Test | Open your live URL on phone and desktop |
-| CV | Upload `assets/cv.pdf`, redeploy |
-| LinkedIn | Add portfolio URL to your LinkedIn profile |
-| `siteUrl` | Set in `js/site-config.js` for social sharing previews |
+1. Set **`siteUrl`** in `js/site-config.js` to your live URL
+2. Commit and push
+3. Test on phone and desktop
+4. Add URL to LinkedIn
 
 ---
 
-## Recommendation
+## Local preview
 
-| Goal | Use |
-|------|-----|
-| Fastest, no Git | **Netlify Drop** (Option A) |
-| Long-term updates via Git | **GitHub Pages** (Option B) |
+```powershell
+.\start-server.ps1
+```
 
-Both are free and work well for this static site.
+Open `http://127.0.0.1:8765/`
+
+---
+
+## Netlify (optional)
+
+Only if you already have a working Netlify site and accept their current limits. See [NETLIFY.md](NETLIFY.md). Not recommended as the primary host anymore.

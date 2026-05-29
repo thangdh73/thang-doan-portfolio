@@ -1,0 +1,4 @@
+C:\Users\thang\.cursor\projects\empty-window\thang-doan-portfolio
+
+Set for MMRA builds:
+  $env:PORTFOLIO_ROOT = "C:\Users\thang\.cursor\projects\empty-window\thang-doan-portfolio"

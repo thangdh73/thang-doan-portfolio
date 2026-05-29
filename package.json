@@ -1,0 +1,9 @@
+{
+  "name": "thang-doan-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Thang Doan — static portfolio (HTML/CSS/JS)",
+  "scripts": {
+    "build": "node scripts/vercel-build.js"
+  }
+}

@@ -2,7 +2,9 @@
 
 Repo: **https://github.com/thangdh73/thang-doan-portfolio**
 
-This site is static (HTML/CSS/JS). No build step required.
+This site is static (HTML/CSS/JS). A minimal **`package.json`** runs `npm run build` on Vercel (no real compile — see `scripts/vercel-build.js`).
+
+**Seeing `404 DEPLOYMENT_NOT_FOUND`?** → [VERCEL-FIX-404.md](VERCEL-FIX-404.md)
 
 ---
 
@@ -15,25 +17,53 @@ This site is static (HTML/CSS/JS). No build step required.
 3. **Import** the Git repository `thang-doan-portfolio`  
    (If you do not see it: **Adjust GitHub App Permissions** and allow access to this repo.)
 
-4. **Configure Project:**
+4. **Configure Project** — expand **Build and Output Settings**:
 
-   | Setting | Value |
-   |---------|--------|
+   | Setting | What to do |
+   |---------|------------|
    | Framework Preset | **Other** |
-   | Root Directory | `.` (leave default) |
-   | Build Command | *(empty — delete any default)* |
-   | Output Directory | `.` or leave as root |
-   | Install Command | *(empty)* |
+   | Root Directory | `./` |
+   | **Build Command** | Turn **Override** ON → delete all text (field must be **empty**) |
+   | **Output Directory** | Turn **Override** ON → type **`.`** only (not `public`) |
+   | **Install Command** | Turn **Override** ON → delete all text (field must be **empty**) |
+
+   Do **not** leave `npm run build` or `npm install` — this repo has no `package.json`.
 
 5. Click **Deploy**
 
-6. Production URL: **https://thangdh.vercel.app/**
+### Fix “npm run build” / missing package.json (existing project)
+
+If a deploy already failed:
+
+1. Vercel dashboard → project **thang-doan-portfolio** (or **thangdh**)
+2. **Settings** → **General** → **Build & Development Settings**
+3. **Framework Preset:** Other
+4. **Build Command:** Override **ON** → leave **blank**
+5. **Output Directory:** Override **ON** → **`.`**
+6. **Install Command:** Override **ON** → leave **blank**
+7. **Save**
+8. **Deployments** → latest failed deploy → **⋯** → **Redeploy**
+
+This repo’s **`vercel.json`** also sets empty build/install commands so Git deploys stay correct after you push.
+
+6. Production URL: **https://thang-doan.vercel.app/**  
+   (Set project name to `thang-doan` in Vercel — see **Change URL** below.)
 
 7. **`js/site-config.js`** should include:
 
    ```javascript
-   siteUrl: "https://thangdh.vercel.app/",
+   siteUrl: "https://thang-doan.vercel.app/",
    ```
+
+### Change URL to `thang-doan.vercel.app`
+
+Default Vercel address is **`{project-name}.vercel.app`**.
+
+1. Dashboard → your project → **Settings** → **General**
+2. **Project Name** → change to **`thang-doan`** → **Save**
+3. **Settings** → **Domains** — you should see **`thang-doan.vercel.app`**
+4. Old URLs (`thang-doan-portfolio.vercel.app`, `thangdh.vercel.app`) may redirect or stop working
+5. **Deployments** → **Redeploy** production if the new domain does not work immediately
 
 8. Commit and push — Vercel redeploys automatically:
 
@@ -91,7 +121,7 @@ With GitHub connected, every **`git push`** to **`main`** triggers a new deploym
 
 | Issue | Fix |
 |-------|-----|
-| Build fails | Clear **Build Command** and **Install Command**; output = site root |
+| Build fails / `npm run build` / no package.json | Settings → Build: **override** Build & Install to **empty**, Output **`.`** → Redeploy |
 | 404 on subpages | `vercel.json` is already in the repo for clean URLs |
 | Tembakau image missing | File must be `assets/projects/tembakau-cross-sections.JPG` (case-sensitive on Vercel) |
 | Old site after push | Wait ~1 min; hard refresh `Ctrl+F5` |
