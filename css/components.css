@@ -1227,6 +1227,10 @@ body.project-modal-open {
   margin-bottom: var(--space-lg);
 }
 
+.geoscience-showcase__grid--four {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .geoscience-card {
   display: flex;
   flex-direction: column;
@@ -1249,6 +1253,22 @@ body.project-modal-open {
 
 .geoscience-card--concept {
   border-top: 3px solid var(--color-gold);
+}
+
+.geoscience-card--fault {
+  border-top: 3px solid #7c9eb8;
+}
+
+.geoscience-card--depositional {
+  border-top: 3px solid #c084fc;
+}
+
+.geoscience-card--fault .geoscience-card__tag {
+  color: #7c9eb8;
+}
+
+.geoscience-card--depositional .geoscience-card__tag {
+  color: #c084fc;
 }
 
 .geoscience-card__media {
@@ -1423,7 +1443,8 @@ body.project-modal-open {
 }
 
 @media (max-width: 900px) {
-  .geoscience-showcase__grid {
+  .geoscience-showcase__grid,
+  .geoscience-showcase__grid--four {
     grid-template-columns: 1fr;
   }
 
