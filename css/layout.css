@@ -196,58 +196,36 @@
 
 .hero__figure {
   width: 100%;
-  max-width: 520px;
+  max-width: 420px;
   margin: 0;
 }
 
 .hero__figure-composite {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
   width: 100%;
-  min-height: clamp(260px, 42vw, 360px);
 }
 
-.hero__figure-back {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: visible;
-}
-
-.hero__figure-layer {
-  position: absolute;
-  display: block;
-  max-width: none;
-  object-fit: contain;
+.hero__figure-seismic {
+  width: 100%;
+  line-height: 0;
   pointer-events: none;
 }
 
 .hero__figure-layer--seismic {
-  width: 108%;
-  max-width: 500px;
-  right: -12%;
-  top: 50%;
-  transform: translateY(-48%);
-  opacity: 0.92;
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.78;
   mix-blend-mode: screen;
-  filter: saturate(1.1);
-}
-
-.hero__figure-layer--geo {
-  width: 52%;
-  max-width: 220px;
-  right: 0;
-  bottom: -4%;
-  opacity: 0.45;
-  mix-blend-mode: lighten;
+  filter: saturate(1.08);
 }
 
 .hero__photo {
-  position: relative;
-  z-index: 1;
   display: block;
-  width: 62%;
-  max-width: 300px;
+  width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: var(--radius-lg);
@@ -284,11 +262,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero__figure-layer--seismic {
-    opacity: 0.55;
-  }
-
-  .hero__figure-layer--geo {
-    display: none;
+    opacity: 0.5;
   }
 }
 
@@ -302,23 +276,8 @@
   }
 
   .hero__figure {
-    max-width: 360px;
+    max-width: 320px;
     margin: 0 auto;
-  }
-
-  .hero__figure-layer--seismic {
-    width: 112%;
-    right: -18%;
-    opacity: 0.85;
-  }
-
-  .hero__figure-layer--geo {
-    display: none;
-  }
-
-  .hero__photo {
-    width: 58%;
-    max-width: 220px;
   }
 }
 
