@@ -209,6 +209,65 @@
         "Natuna Sea",
       ],
     },
+    "fault-seal-sk417": {
+      region: "Thailand / Malaysia · PTTEP",
+      title: "Structural Geology & Fault Seal Analysis",
+      workflowHeading: "Fault seal workflow",
+      summary:
+        "Key person in charge for PTTEP blocks SK-417, SK-438, PM-407, and PM-415: integrated regional structural setting, fault framework interpretation, and fault seal analysis using Shale Gouge Ratio (SGR) and Allen juxtaposition diagrams to estimate leakage points and trap integrity.",
+      presentation: {
+        title: "Fault seal study — SK-417 / SK-438 (PDF)",
+        pdf: "assets/projects/fault-seal-sk417.pdf",
+      },
+      figures: [
+        {
+          src: "assets/images/showcase-fault-seal.png",
+          alt: "Fault seal analysis — shale gouge ratio at reservoir overlaps, Brent–Brent and Brent–Cook juxtaposition",
+          caption:
+            "SGR and juxtaposition analysis at reservoir overlaps — illustrating fault seal risk and fluid contact context.",
+          label: "Fault seal · SGR",
+          zoom: true,
+        },
+        {
+          src: "assets/images/showcase-depositional-map-upload.png",
+          alt: "Depositional environment maps with structural framework — faults and inversion folds",
+          caption:
+            "Regional depositional and structural framework used with seismic facies and well control for block evaluation.",
+          label: "Structural & depositional framework",
+          zoom: true,
+        },
+      ],
+      workflow: [
+        {
+          title: "Structural setting & fault framework",
+          text: "Reviewed subsurface and regional data to summarise structural style, fault networks, and inversion features across assigned PTTEP blocks.",
+        },
+        {
+          title: "Shale Gouge Ratio (SGR)",
+          text: "Calculated SGR along fault surfaces to estimate clay smear and continuity of seal across fault zones.",
+        },
+        {
+          title: "Allen juxtaposition diagrams",
+          text: "Built reservoir vs non-reservoir juxtaposition plots to identify cross-fault communication pathways and potential leakage.",
+        },
+        {
+          title: "Leakage point analysis",
+          text: "Derived leaking points from Allen diagrams to rank fault segments that compromise trap integrity or compartmentalisation.",
+        },
+        {
+          title: "Integration with prospect risk",
+          text: "Combined structural and seal findings with sequence stratigraphy and resource assessment inputs for block evaluation.",
+        },
+      ],
+      deliverables: [
+        "Block structural setting summary (SK-417, SK-438, PM-407, PM-415)",
+        "SGR maps and fault seal sections",
+        "Allen juxtaposition diagrams",
+        "Leakage point estimates",
+        "Fault seal study presentation (PDF)",
+      ],
+      tags: ["Fault Seal", "SGR", "Allen diagram", "PTTEP", "Structural geology"],
+    },
     "eage-2016": {
       region: "EAGE · Kuala Lumpur · December 2016",
       title: "Best Practices in Seismic Constraining of 3D Reservoir Architecture Models",

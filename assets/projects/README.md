@@ -40,6 +40,21 @@ The Mako modal embeds the **PDF** (pixel-perfect export). If the PDF is missing 
 
 ---
 
+## PTTEP — Fault seal SK-417 / SK-438
+
+| File | Used in modal |
+|------|----------------|
+| `fault-seal-sk417.pdf` | Full fault seal study deck (from `Downloads\Fault Seal Sk417.pdf`) |
+
+```powershell
+.\copy-fault-seal-pdf.ps1
+git add assets/projects/fault-seal-sk417.pdf index.html js/project-details.js
+git commit -m "Add PTTEP fault seal project detail modal with PDF"
+git push origin main
+```
+
+---
+
 ## Tembakau IPC
 
 | File | Used in modal |
