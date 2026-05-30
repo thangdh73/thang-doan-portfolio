@@ -1259,13 +1259,20 @@ body.project-modal-open {
 }
 
 .geoscience-card__media img {
+  display: block;
   width: 100%;
   height: auto;
-  min-height: 220px;
-  max-height: 420px;
+  min-height: 240px;
+  max-height: 480px;
   object-fit: contain;
   object-position: center;
   transition: transform 0.35s ease;
+}
+
+.geoscience-card__media img.is-broken {
+  min-height: 200px;
+  object-fit: none;
+  padding: var(--space-md);
 }
 
 .geoscience-card__media:hover img {

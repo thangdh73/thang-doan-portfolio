@@ -4,7 +4,8 @@
 |------|-----|
 | `hero-lena-delta.jpg` | Hero — Lena River Delta (Landsat, NASA/USGS) |
 | `showcase-seismic-3d.png` | Geoscience section — 3D seismic / structural interpretation |
-| `showcase-reservoir-concept.png` | Geoscience section — conceptual reservoir architecture |
+| `showcase-reservoir-concept.jpg` | Geoscience section — conceptual reservoir architecture (`Geological_model.JPG`) |
+| `showcase-seismic-3d.png` | Geoscience section — from `Seismic.png` (~9 MB; large file) |
 
 If seismic and concept images look swapped on the site, swap the two filenames above.
 
