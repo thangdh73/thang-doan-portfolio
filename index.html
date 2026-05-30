@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Thang Doan — Senior Geologist and Geological Modeler with 28+ years in oil and gas. Reservoir modeling, seismic interpretation, and subsurface evaluation.">
+  <meta name="description" content="Thang Doan — Senior Geologist and Geological Modeler. 3D seismic interpretation, reservoir architecture, Petrel static modelling, and stochastic volumetrics across global projects.">
   <!-- Set og:url in js/site-config.js when deployed -->
   <meta property="og:url" content="" id="meta-og-url">
   <meta property="og:title" content="Thang Doan | Senior Geologist &amp; Geological Modeler">
@@ -35,6 +35,7 @@
       </button>
       <nav id="site-nav" class="nav" aria-label="Primary">
         <ul class="nav__list">
+          <li><a href="#geoscience" class="nav__link">Geoscience</a></li>
           <li><a href="#about" class="nav__link">About</a></li>
           <li><a href="#skills" class="nav__link">Skills</a></li>
           <li><a href="#experience" class="nav__link">Experience</a></li>
@@ -62,6 +63,7 @@
           <div class="hero__cta">
             <a href="#contact" class="btn btn--primary">Contact Me</a>
             <a href="assets/cv.pdf" id="cv-download" class="btn btn--outline" download title="Add assets/cv.pdf to enable download">Download CV</a>
+            <a href="#geoscience" class="btn btn--outline">Geoscience showcase</a>
             <a href="#projects" class="btn btn--outline">View Projects</a>
           </div>
           <div class="hero__stats">
@@ -93,6 +95,76 @@
             <figcaption class="hero__caption">Lena River Delta · Landsat (NASA/USGS)</figcaption>
           </figure>
         </div>
+      </div>
+    </section>
+
+    <!-- Geoscience showcase -->
+    <section class="section geoscience-showcase" id="geoscience" aria-labelledby="geoscience-title">
+      <div class="container">
+        <header class="section__header fade-in">
+          <span class="section__label">Geoscience in practice</span>
+          <h2 id="geoscience-title" class="section__title">Seismic interpretation &amp; reservoir architecture</h2>
+          <p class="section__subtitle">
+            From plate-scale structure on 3D seismic to channel–lobe reservoir concepts — integrating geophysics, sedimentology, and static modelling for exploration and development decisions.
+          </p>
+        </header>
+
+        <div class="geoscience-showcase__grid fade-in">
+          <article class="geoscience-card geoscience-card--seismic">
+            <a class="geoscience-card__media" href="assets/images/showcase-seismic-3d.png" target="_blank" rel="noopener noreferrer">
+              <img
+                src="assets/images/showcase-seismic-3d.png"
+                alt="3D seismic interpretation — vertical sections and time slice showing splay faults, ocean crust, and two-way travel time structure"
+                width="640"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              >
+            </a>
+            <div class="geoscience-card__body">
+              <p class="geoscience-card__tag">3D seismic · structural geology</p>
+              <h3 class="geoscience-card__title">Structural framework from seismic</h3>
+              <p class="geoscience-card__text">
+                Interpret complex deformation: splay faults, crustal geometry, and amplitude anomalies on time slices — tying reflector character to tectonic setting and prospect risk.
+              </p>
+              <ul class="geoscience-card__list">
+                <li>2D/3D interpretation &amp; time–depth thinking</li>
+                <li>Fault networks for static and dynamic models</li>
+                <li>QC of multiples and imaging artifacts</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="geoscience-card geoscience-card--concept">
+            <a class="geoscience-card__media" href="assets/images/showcase-reservoir-concept.png" target="_blank" rel="noopener noreferrer">
+              <img
+                src="assets/images/showcase-reservoir-concept.png"
+                alt="Conceptual geological model — deep-water sandstone reservoir architecture with channel, wings, and lithology legend"
+                width="640"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              >
+            </a>
+            <div class="geoscience-card__body">
+              <p class="geoscience-card__tag">Conceptual model · sedimentology</p>
+              <h3 class="geoscience-card__title">Reservoir architecture &amp; stratigraphy</h3>
+              <p class="geoscience-card__text">
+                Build defensible geological concepts — submarine fan systems, channel–wing sand–shale heterogeneity, and stratigraphic packages that drive net-to-gross, connectivity, and volumetrics.
+              </p>
+              <ul class="geoscience-card__list">
+                <li>Sequence stratigraphy &amp; depositional systems</li>
+                <li>Lithofacies frameworks for Petrel/RMS models</li>
+                <li>Bridge from seismic amplitudes to well logs</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <p class="geoscience-showcase__cta fade-in">
+          <a href="#projects" class="btn btn--primary">See project applications</a>
+          <a href="#contact" class="btn btn--outline">Discuss your asset</a>
+        </p>
       </div>
     </section>
 
