@@ -1308,36 +1308,20 @@ body.project-modal-open {
 }
 
 .geoscience-card__text {
-  margin: 0 0 var(--space-sm);
+  margin: 0;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--color-text-muted);
 }
 
-.geoscience-card__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-}
-
-.geoscience-card__list li {
-  position: relative;
-  padding-left: 1.1rem;
-  margin-bottom: 0.35rem;
-}
-
-.geoscience-card__list li::before {
-  content: "→";
-  position: absolute;
-  left: 0;
+.geoscience-showcase .section__subtitle a {
   color: var(--color-accent);
-  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
-.geoscience-card--concept .geoscience-card__list li::before {
-  color: var(--color-gold);
+.geoscience-showcase .section__subtitle a:hover {
+  color: var(--color-white);
 }
 
 .geoscience-showcase__cta {
