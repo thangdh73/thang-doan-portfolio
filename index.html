@@ -52,11 +52,6 @@
   <main id="main-content">
     <!-- Hero -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
-      <div class="hero__decor" aria-hidden="true">
-        <img class="hero__decor-layer hero__decor-layer--seismic" src="assets/images/overlay-seismic-transparent.png" alt="" width="720" height="342" decoding="async">
-        <img class="hero__decor-layer hero__decor-layer--geo" src="assets/images/overlay-geological-transparent.png" alt="" width="720" height="424" decoding="async">
-        <img class="hero__decor-layer hero__decor-layer--waves" src="assets/images/overlay-seismic-accent.svg" alt="">
-      </div>
       <div class="container hero__grid">
         <div class="hero__content fade-in">
           <p class="hero__greeting">Senior Geoscience Professional</p>
@@ -88,15 +83,35 @@
         </div>
         <div class="hero__visual fade-in">
           <figure class="hero__figure">
-            <img
-              class="hero__photo"
-              src="assets/images/hero-lena-delta.jpg"
-              alt="Lena River Delta, Siberia — false-colour Landsat satellite image of branching river channels and wetlands"
-              width="420"
-              height="420"
-              loading="eager"
-              decoding="async"
-            >
+            <div class="hero__figure-composite">
+              <div class="hero__figure-back" aria-hidden="true">
+                <img
+                  class="hero__figure-layer hero__figure-layer--seismic"
+                  src="assets/images/overlay-seismic-transparent.png"
+                  alt=""
+                  width="720"
+                  height="342"
+                  decoding="async"
+                >
+                <img
+                  class="hero__figure-layer hero__figure-layer--geo"
+                  src="assets/images/overlay-geological-transparent.png"
+                  alt=""
+                  width="720"
+                  height="424"
+                  decoding="async"
+                >
+              </div>
+              <img
+                class="hero__photo"
+                src="assets/images/hero-lena-delta.jpg"
+                alt="Lena River Delta, Siberia — false-colour Landsat satellite image of branching river channels and wetlands"
+                width="420"
+                height="420"
+                loading="eager"
+                decoding="async"
+              >
+            </div>
             <figcaption class="hero__caption">Lena River Delta · Landsat (NASA/USGS)</figcaption>
           </figure>
         </div>
@@ -105,11 +120,6 @@
 
     <!-- Geoscience showcase -->
     <section class="section geoscience-showcase" id="geoscience" aria-labelledby="geoscience-title">
-      <div class="geoscience-showcase__decor" aria-hidden="true">
-        <img class="geoscience-showcase__decor-seismic" src="assets/images/overlay-seismic-transparent.png" alt="" width="720" height="342" decoding="async">
-        <img class="geoscience-showcase__decor-geo" src="assets/images/overlay-geological-transparent.png" alt="" width="720" height="424" decoding="async">
-        <img class="geoscience-showcase__decor-accent" src="assets/images/overlay-reservoir-accent.svg" alt="">
-      </div>
       <div class="container">
         <header class="section__header fade-in">
           <span class="section__label">Geoscience in practice</span>

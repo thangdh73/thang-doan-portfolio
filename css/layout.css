@@ -142,47 +142,6 @@
   z-index: 0;
 }
 
-.hero__decor {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.hero__decor-layer {
-  position: absolute;
-  display: block;
-  max-width: none;
-  object-fit: contain;
-  opacity: 0.4;
-  mix-blend-mode: screen;
-  filter: saturate(1.2) drop-shadow(0 0 40px rgba(45, 212, 191, 0.12));
-}
-
-.hero__decor-layer--seismic {
-  width: min(58vw, 640px);
-  right: -6%;
-  top: 14%;
-}
-
-.hero__decor-layer--geo {
-  width: min(44vw, 500px);
-  left: -4%;
-  bottom: 10%;
-  opacity: 0.34;
-  mix-blend-mode: lighten;
-}
-
-.hero__decor-layer--waves {
-  width: min(48vw, 520px);
-  left: 6%;
-  bottom: 20%;
-  opacity: 0.2;
-  mix-blend-mode: normal;
-  filter: none;
-}
-
 .hero__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -237,13 +196,58 @@
 
 .hero__figure {
   width: 100%;
-  max-width: 420px;
+  max-width: 520px;
   margin: 0;
 }
 
-.hero__photo {
-  display: block;
+.hero__figure-composite {
+  position: relative;
   width: 100%;
+  min-height: clamp(260px, 42vw, 360px);
+}
+
+.hero__figure-back {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.hero__figure-layer {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.hero__figure-layer--seismic {
+  width: 108%;
+  max-width: 500px;
+  right: -12%;
+  top: 50%;
+  transform: translateY(-48%);
+  opacity: 0.92;
+  mix-blend-mode: screen;
+  filter: saturate(1.1);
+}
+
+.hero__figure-layer--geo {
+  width: 52%;
+  max-width: 220px;
+  right: 0;
+  bottom: -4%;
+  opacity: 0.45;
+  mix-blend-mode: lighten;
+}
+
+.hero__photo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 62%;
+  max-width: 300px;
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: var(--radius-lg);
@@ -279,30 +283,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__decor-layer {
-    opacity: 0.18;
+  .hero__figure-layer--seismic {
+    opacity: 0.55;
+  }
+
+  .hero__figure-layer--geo {
+    display: none;
   }
 }
 
 @media (max-width: 900px) {
-  .hero__decor-layer--seismic {
-    width: 85vw;
-    right: -20%;
-    top: 52%;
-    opacity: 0.28;
-  }
-
-  .hero__decor-layer--geo {
-    width: 70vw;
-    left: -15%;
-    bottom: 4%;
-    opacity: 0.22;
-  }
-
-  .hero__decor-layer--waves {
-    display: none;
-  }
-
   .hero__grid {
     grid-template-columns: 1fr;
   }
@@ -312,8 +302,23 @@
   }
 
   .hero__figure {
-    max-width: 320px;
+    max-width: 360px;
     margin: 0 auto;
+  }
+
+  .hero__figure-layer--seismic {
+    width: 112%;
+    right: -18%;
+    opacity: 0.85;
+  }
+
+  .hero__figure-layer--geo {
+    display: none;
+  }
+
+  .hero__photo {
+    width: 58%;
+    max-width: 220px;
   }
 }
 
