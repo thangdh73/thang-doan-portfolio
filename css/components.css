@@ -1217,7 +1217,70 @@ body.project-modal-open {
 
 /* Geoscience showcase */
 .geoscience-showcase {
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(180deg, var(--color-bg) 0%, rgba(36, 48, 68, 0.6) 50%, var(--color-bg) 100%);
+}
+
+.geoscience-showcase__decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.geoscience-showcase__decor img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+
+.geoscience-showcase__decor-seismic {
+  width: min(50vw, 560px);
+  right: -8%;
+  top: 8%;
+  opacity: 0.26;
+  filter: saturate(1.15);
+}
+
+.geoscience-showcase__decor-geo {
+  width: min(40vw, 440px);
+  left: -6%;
+  bottom: 5%;
+  opacity: 0.22;
+  mix-blend-mode: lighten;
+}
+
+.geoscience-showcase__decor-accent {
+  width: min(28vw, 280px);
+  right: 12%;
+  bottom: 18%;
+  opacity: 0.35;
+  mix-blend-mode: normal;
+}
+
+.geoscience-showcase .container {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .geoscience-showcase__decor-seismic,
+  .geoscience-showcase__decor-geo {
+    opacity: 0.14;
+  }
+
+  .geoscience-showcase__decor-accent {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .geoscience-showcase__decor img {
+    opacity: 0.12;
+  }
 }
 
 .geoscience-showcase__grid {

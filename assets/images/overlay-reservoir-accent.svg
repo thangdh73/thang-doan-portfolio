@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" aria-hidden="true">
+  <defs>
+    <linearGradient id="resGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4a853" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#resGrad)" stroke="#d4a853" stroke-width="1" opacity="0.5"
+    d="M20 200 L60 120 L100 150 L140 80 L180 110 L220 60 L260 90 L300 40 L300 200 Z"/>
+  <path fill="none" stroke="#2dd4bf" stroke-width="0.8" opacity="0.35"
+    d="M20 200 L60 160 L100 175 L140 140 L180 155 L220 130 L260 145 L300 120"/>
+  <rect x="24" y="24" width="72" height="48" rx="4" fill="none" stroke="#d4a853" stroke-width="0.8" opacity="0.4"/>
+  <text x="32" y="44" fill="#d4a853" font-size="8" font-family="system-ui,sans-serif" opacity="0.5">Sand</text>
+  <text x="32" y="58" fill="#2dd4bf" font-size="8" font-family="system-ui,sans-serif" opacity="0.5">Shale</text>
+</svg>

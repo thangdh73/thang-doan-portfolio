@@ -139,6 +139,48 @@
     radial-gradient(ellipse 80% 50% at 70% 40%, rgba(45, 212, 191, 0.08), transparent),
     radial-gradient(ellipse 60% 40% at 20% 80%, rgba(212, 168, 83, 0.05), transparent);
   pointer-events: none;
+  z-index: 0;
+}
+
+.hero__decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero__decor-layer {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: contain;
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  filter: saturate(1.2) drop-shadow(0 0 40px rgba(45, 212, 191, 0.12));
+}
+
+.hero__decor-layer--seismic {
+  width: min(58vw, 640px);
+  right: -6%;
+  top: 14%;
+}
+
+.hero__decor-layer--geo {
+  width: min(44vw, 500px);
+  left: -4%;
+  bottom: 10%;
+  opacity: 0.34;
+  mix-blend-mode: lighten;
+}
+
+.hero__decor-layer--waves {
+  width: min(48vw, 520px);
+  left: 6%;
+  bottom: 20%;
+  opacity: 0.2;
+  mix-blend-mode: normal;
+  filter: none;
 }
 
 .hero__grid {
@@ -236,7 +278,31 @@
   color: var(--color-text-muted);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .hero__decor-layer {
+    opacity: 0.18;
+  }
+}
+
 @media (max-width: 900px) {
+  .hero__decor-layer--seismic {
+    width: 85vw;
+    right: -20%;
+    top: 52%;
+    opacity: 0.28;
+  }
+
+  .hero__decor-layer--geo {
+    width: 70vw;
+    left: -15%;
+    bottom: 4%;
+    opacity: 0.22;
+  }
+
+  .hero__decor-layer--waves {
+    display: none;
+  }
+
   .hero__grid {
     grid-template-columns: 1fr;
   }

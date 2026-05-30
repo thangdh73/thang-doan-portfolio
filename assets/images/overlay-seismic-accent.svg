@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" aria-hidden="true">
+  <defs>
+    <linearGradient id="seisGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0"/>
+      <stop offset="35%" stop-color="#2dd4bf" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#d4a853" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#seisGrad)" stroke-width="1.2" opacity="0.9">
+    <path d="M0 140 Q40 90 80 140 T160 140 T240 120 T320 150 T400 130 T480 140"/>
+    <path d="M0 160 Q50 110 100 165 T200 155 T300 175 T400 150 T480 165"/>
+    <path d="M0 120 Q30 170 70 125 T150 135 T230 100 T310 125 T390 105 T480 115"/>
+    <path d="M0 180 Q45 220 90 175 T180 190 T270 165 T360 185 T450 170 T480 180"/>
+  </g>
+  <g stroke="#2dd4bf" stroke-width="0.6" opacity="0.25">
+    <line x1="0" y1="70" x2="480" y2="70"/><line x1="0" y1="140" x2="480" y2="140"/><line x1="0" y1="210" x2="480" y2="210"/>
+  </g>
+</svg>
