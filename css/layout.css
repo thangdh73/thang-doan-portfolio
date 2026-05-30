@@ -128,7 +128,7 @@
   align-items: center;
   padding-top: var(--header-height);
   position: relative;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .hero::before {
@@ -149,7 +149,6 @@
   align-items: center;
   position: relative;
   z-index: 1;
-  overflow: visible;
 }
 
 .hero__greeting {
@@ -191,64 +190,19 @@
 
 .hero__visual {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  overflow: visible;
-  position: relative;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero__figure {
   width: 100%;
   max-width: 420px;
   margin: 0;
-  margin-left: auto;
-  overflow: visible;
-}
-
-.hero__figure-composite {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  overflow: visible;
-  /*
-   * Match reference layout (uploaded screenshot):
-   * - Lena: square anchor (unchanged size/position in this box)
-   * - Seismic: right edge aligned with Lena; ~1.65× width; ~0.78× height;
-   *   top ~24% above Lena; bottom near vertical centre of Lena
-   */
-  --seismic-width-ratio: 1.65;
-  --seismic-top: -24%;
-}
-
-/* Seismic background — behind Lena, does not affect photo layout */
-.hero__figure-seismic {
-  position: absolute;
-  z-index: 0;
-  top: var(--seismic-top);
-  right: 0;
-  left: auto;
-  width: calc(var(--seismic-width-ratio) * 100%);
-  line-height: 0;
-  pointer-events: none;
-  overflow: visible;
-}
-
-.hero__figure-layer--seismic {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 720 / 342;
-  opacity: 0.48;
-  mix-blend-mode: screen;
-  filter: saturate(0.95) brightness(1.05);
 }
 
 .hero__photo {
-  position: relative;
-  z-index: 1;
   display: block;
   width: 100%;
-  height: 100%;
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: var(--radius-lg);
@@ -283,12 +237,6 @@
   color: var(--color-text-muted);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero__figure-layer--seismic {
-    opacity: 0.32;
-  }
-}
-
 @media (max-width: 900px) {
   .hero__grid {
     grid-template-columns: 1fr;
@@ -296,22 +244,11 @@
 
   .hero__visual {
     order: -1;
-    align-items: center;
-    justify-content: center;
   }
 
   .hero__figure {
     max-width: 320px;
     margin: 0 auto;
-  }
-
-  .hero__figure-composite {
-    --seismic-width-ratio: 1.55;
-    --seismic-top: -22%;
-  }
-
-  .hero__figure-layer--seismic {
-    opacity: 0.42;
   }
 }
 
