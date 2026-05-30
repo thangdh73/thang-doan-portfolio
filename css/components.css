@@ -1324,6 +1324,97 @@ body.project-modal-open {
   color: var(--color-white);
 }
 
+.geoscience-examples {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: rgba(15, 20, 25, 0.55);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.geoscience-examples__heading {
+  margin: 0 0 var(--space-md);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-white);
+  text-align: center;
+}
+
+.geoscience-examples__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+}
+
+.geoscience-examples__theme {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.geoscience-examples__col:last-child .geoscience-examples__theme {
+  color: var(--color-gold);
+}
+
+.geoscience-examples__intro {
+  margin: 0 0 var(--space-sm);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.geoscience-examples__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.geoscience-examples__list li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.geoscience-examples__list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.geoscience-examples__col:last-child .geoscience-examples__list li::before {
+  color: var(--color-gold);
+}
+
+.geoscience-examples__list strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.geoscience-examples__note {
+  margin: var(--space-md) 0 0;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.geoscience-examples__note code {
+  font-size: 0.75rem;
+  color: var(--color-accent);
+}
+
+@media (max-width: 900px) {
+  .geoscience-examples__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .geoscience-showcase__cta {
   display: flex;
   flex-wrap: wrap;
