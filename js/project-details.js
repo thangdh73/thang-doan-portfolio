@@ -221,7 +221,7 @@
       },
       figures: [
         {
-          src: "assets/images/showcase-fault-seal.png",
+          src: "assets/images/showcase-fault-seal-upload.png",
           alt: "Fault seal analysis — shale gouge ratio at reservoir overlaps, Brent–Brent and Brent–Cook juxtaposition",
           caption:
             "SGR and juxtaposition analysis at reservoir overlaps — illustrating fault seal risk and fluid contact context.",
