@@ -18,3 +18,5 @@ assets/projects/_pptx_tmp/
 assets/projects/mako-slides-manifest.txt
 assets/projects/marko-pptx-extract-report.json
 assets/projects/marko-reservoir-modeling-portfolio.pptx
+
+.env*

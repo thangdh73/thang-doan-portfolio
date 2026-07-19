@@ -4,6 +4,10 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/api/pp/:path*",
+      "destination": "/api/pp"
+    },
+    {
       "source": "/tools/stochastic-volume/health",
       "destination": "/api/stochastic-health"
     },
