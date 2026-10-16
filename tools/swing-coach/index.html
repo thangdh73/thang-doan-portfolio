@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI golf swing coach (beta): compare your face-on and down-the-line swing videos with a model swing — positions P1–P10, three swing planes and Tour Tempo. Thang Doan.">
+  <meta name="robots" content="noindex">
+  <title>AI Golf Swing Coach | Thang Doan</title>
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/data-lab.css">
+  <link rel="stylesheet" href="../../css/swing-coach.css">
+  <meta name="theme-color" content="#0f1419">
+</head>
+<body>
+  <a href="#sc-main" class="skip-link">Skip to tool</a>
+
+  <header class="lab-header sc-topbar">
+    <div class="container lab-header__inner">
+      <a href="../../index.html#technical" class="lab-header__back">← Technical Corner</a>
+      <span id="engine-status" class="sc-status sc-status--checking" role="status">Checking engine…</span>
+      <a href="../../index.html" class="btn btn--outline btn--small">Portfolio</a>
+    </div>
+  </header>
+
+  <main id="sc-main" class="lab-main">
+    <div class="container">
+      <header class="lab-page-header">
+        <p class="sc-eyebrow">Beta · access code required</p>
+        <h1 class="lab-page-header__title">AI Golf Swing Coach</h1>
+        <p class="lab-intro">
+          Upload a face-on and/or down-the-line swing video and compare it with a model swing:
+          positions P1–P10, hip / torso / shoulder planes and Tour Tempo rhythm.
+          The analysis engine runs on my own PC, so it is only available while that PC is online.
+          Results are <strong>observations, not a diagnosis</strong>.
+        </p>
+      </header>
+
+      <div id="offline-note" class="lab-panel sc-offline" hidden>
+        <strong>Engine offline.</strong> The analysis engine runs on my PC and is not reachable right now. Please try again later.
+      </div>
+
+      <form id="sc-form" class="sc-form" novalidate>
+        <div class="lab-panel">
+          <p class="lab-panel__title">1 · Access</p>
+          <label class="sc-field">
+            <span>Access code</span>
+            <input type="password" id="access-code" autocomplete="current-password" required>
+          </label>
+          <p class="sc-hint">Ask Thang for a code. It is kept only in this browser tab.</p>
+        </div>
+
+        <div class="lab-panel">
+          <p class="lab-panel__title">2 · Videos</p>
+          <div class="sc-two">
+            <fieldset class="sc-video" data-view="fo">
+              <legend>Face-on</legend>
+              <label class="upload-zone" tabindex="0">
+                <input type="file" id="file-fo" accept="video/*,.mp4,.mov,.m4v,.avi,.mkv">
+                <strong>Choose face-on video</strong>
+                <p class="upload-zone__hint">one swing · max 20 s · 200 MB</p>
+              </label>
+              <p class="file-info" id="info-fo"></p>
+              <label class="sc-field"><span>Clip speed</span>
+                <select id="speed-fo">
+                  <option value="real">Real time</option>
+                  <option value="slowmo">Phone slow motion (I know the fps)</option>
+                  <option value="slowmo_unknown">Slow motion, fps unknown</option>
+                  <option value="edited">Broadcast / speed-edited</option>
+                </select>
+              </label>
+              <label class="sc-field sc-fps" hidden><span>Recording fps</span><input type="number" id="fps-fo" min="60" max="1000" step="30" value="240"></label>
+            </fieldset>
+            <fieldset class="sc-video" data-view="dtl">
+              <legend>Down-the-line</legend>
+              <label class="upload-zone" tabindex="0">
+                <input type="file" id="file-dtl" accept="video/*,.mp4,.mov,.m4v,.avi,.mkv">
+                <strong>Choose down-the-line video</strong>
+                <p class="upload-zone__hint">one swing · max 20 s · 200 MB</p>
+              </label>
+              <p class="file-info" id="info-dtl"></p>
+              <label class="sc-field"><span>Clip speed</span>
+                <select id="speed-dtl">
+                  <option value="real">Real time</option>
+                  <option value="slowmo">Phone slow motion (I know the fps)</option>
+                  <option value="slowmo_unknown">Slow motion, fps unknown</option>
+                  <option value="edited">Broadcast / speed-edited</option>
+                </select>
+              </label>
+              <label class="sc-field sc-fps" hidden><span>Recording fps</span><input type="number" id="fps-dtl" min="60" max="1000" step="30" value="240"></label>
+            </fieldset>
+          </div>
+          <details class="sc-howto">
+            <summary>How to film</summary>
+            <ul>
+              <li><strong>Face-on:</strong> camera at chest height, square to the golfer, ball in the middle of the frame.</li>
+              <li><strong>Down-the-line:</strong> camera at hand height on the target line, behind the hands; whole body and clubhead visible at address and at the top.</li>
+              <li>Phone slow motion (120 or 240 fps) gives the best tempo; enter that fps above.</li>
+              <li>Trim each clip to one swing.</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="lab-panel">
+          <p class="lab-panel__title">3 · Settings</p>
+          <div class="sc-grid3">
+            <label class="sc-field"><span>Model swing</span><select id="model" required><option value="">Enter code to load…</option></select></label>
+            <label class="sc-field"><span>Club</span>
+              <select id="club"><option value="driver">Driver</option><option value="wood">Fairway wood</option><option value="hybrid">Hybrid</option><option value="iron" selected>Iron</option><option value="wedge">Wedge</option></select>
+            </label>
+            <label class="sc-field"><span>Handedness</span>
+              <select id="handedness"><option value="right">Right-handed</option><option value="left">Left-handed</option></select>
+            </label>
+          </div>
+          <details class="sc-more">
+            <summary>Optional: ball flight, pain and body measurements</summary>
+            <div class="sc-grid3">
+              <label class="sc-field"><span>Main miss today</span>
+                <select id="outcome">
+                  <option value="">Not provided</option><option value="good">Good / on target</option><option value="slice">Slice</option><option value="hook">Hook</option>
+                  <option value="push">Push</option><option value="pull">Pull</option><option value="fat">Fat</option><option value="thin">Thin / top</option>
+                  <option value="heeltoe">Heel / toe strikes</option><option value="shank">Shank</option><option value="weak">Weak / short</option>
+                </select>
+              </label>
+              <label class="sc-field"><span>How often</span><input id="outcome-count" placeholder="e.g. 6 of 10"></label>
+              <label class="sc-field"><span>Pain today</span>
+                <select id="pain"><option value="unknown">Not stated</option><option value="none">No pain</option><option value="pain">Yes, pain</option></select>
+              </label>
+              <label class="sc-field"><span>Height (cm)</span><input type="number" id="height" min="100" max="230"></label>
+              <label class="sc-field"><span>Wingspan (cm)</span><input type="number" id="wingspan" min="100" max="240"></label>
+              <label class="sc-field"><span>Forearm (cm)</span><input type="number" id="forearm" min="15" max="45"></label>
+              <label class="sc-field"><span>Upper arm (cm)</span><input type="number" id="upper-arm" min="15" max="50"></label>
+            </div>
+            <p class="sc-hint">Body measurements are used only as context for swing plane (BioSwing hypothesis, unvalidated). Pain → no drill is given.</p>
+          </details>
+        </div>
+
+        <div class="sc-actions">
+          <button type="submit" id="go" class="btn btn--primary">Analyse my swing</button>
+          <p id="form-msg" class="sc-msg" role="alert"></p>
+        </div>
+      </form>
+
+      <section id="progress" class="lab-panel sc-progress" hidden aria-live="polite">
+        <p class="lab-panel__title">Analysing</p>
+        <div class="sc-bar"><span id="bar"></span></div>
+        <p id="progress-msg" class="sc-hint">Uploading…</p>
+      </section>
+
+      <section id="results" class="sc-results" hidden aria-labelledby="results-title">
+        <h2 id="results-title" class="sc-h2">Your swing vs <span id="r-model"></span></h2>
+        <p id="r-meta" class="sc-hint"></p>
+        <div id="r-safety"></div>
+        <div id="r-sections"></div>
+
+        <div class="lab-panel">
+          <p class="lab-panel__title">Position by position</p>
+          <div class="sc-viewer">
+            <div class="sc-viewer__img"><img id="pos-img" alt="Your swing and the model swing at the selected position"><p id="pos-legend" class="sc-hint"></p></div>
+            <div class="sc-viewer__ctl">
+              <div class="sc-seg" role="radiogroup" aria-label="View">
+                <button type="button" data-view="fo" role="radio">Face-on</button>
+                <button type="button" data-view="dtl" role="radio">Down-the-line</button>
+              </div>
+              <label class="sc-field"><span>Position <strong id="pos-label"></strong></span>
+                <input type="range" id="pos" min="1" max="10" value="4">
+              </label>
+              <div id="pos-rows" class="sc-posrows"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lab-panel" id="tempo-panel">
+          <p class="lab-panel__title">Tempo</p>
+          <div id="tempo"></div>
+        </div>
+
+        <details class="lab-panel sc-appendix">
+          <summary class="lab-panel__title">Appendix · all measurements vs model band</summary>
+          <div class="sc-tablewrap"><table id="appendix"></table></div>
+        </details>
+
+        <div class="sc-actions">
+          <button type="button" id="download" class="btn btn--primary">Download full report (HTML)</button>
+          <button type="button" id="again" class="btn btn--outline">Analyse another swing</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="../../js/swing-coach-config.js"></script>
+  <script src="../../js/swing-coach.js"></script>
+</body>
+</html>
