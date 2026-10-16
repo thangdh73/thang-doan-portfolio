@@ -123,3 +123,10 @@
 
 [hidden] { display: none !important; }
 .sc-tempo__row .sc-num { white-space: normal; }
+
+/* Phone fix: keep the file input tappable (iOS Safari can ignore a label for a display:none input) */
+.sc-video .upload-zone { position: relative; overflow: hidden; }
+.sc-video .upload-zone input[type="file"] {
+  display: block; position: absolute; inset: 0; width: 100%; height: 100%;
+  opacity: 0; cursor: pointer; font-size: 0;
+}
