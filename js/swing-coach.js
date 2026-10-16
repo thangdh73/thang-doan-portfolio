@@ -55,20 +55,27 @@
   }
 
   // ---------------------------------------------------------------- models
+  // Loads the model list for the typed code. Returns a promise of true (loaded) / false.
+  function codeMsg(t, ok) { var el = $("code-msg"); el.textContent = t; el.className = "sc-hint" + (ok ? " sc-ok" : t ? " sc-bad" : ""); }
   function loadModels() {
-    if (!code()) return;
-    api("/models").then(function (r) { return r.json(); }).then(function (list) {
+    if (!code()) { codeMsg(""); return Promise.resolve(false); }
+    codeMsg("Checking code…");
+    return api("/models").then(function (r) { return r.json(); }).then(function (list) {
       var sel = $("model");
       sel.innerHTML = list.map(function (m) {
         return '<option value="' + esc(m.id) + '">' + esc(m.name + " · " + m.club + " (" + m.views.join("+") + ")") + "</option>";
       }).join("") || '<option value="">No model swings in the library</option>';
+      codeMsg("Code accepted · " + list.length + " model swing" + (list.length === 1 ? "" : "s") + " loaded", true);
       $("form-msg").textContent = "";
       store("sc_code", code());
+      return list.length > 0;
     }).catch(function (e) {
       $("model").innerHTML = '<option value="">Enter code to load…</option>';
-      $("form-msg").textContent = e.status === 401 ? "Access code not recognised." : "Could not reach the engine.";
+      codeMsg(e.status === 401 ? "Access code not recognised." : "Could not reach the engine (is the laptop on and start_engine.bat running?).");
+      return false;
     });
   }
+  var codeTimer = null;
 
   // ---------------------------------------------------------------- form
   ["fo", "dtl"].forEach(function (v) {
@@ -90,6 +97,7 @@
     });
   });
   $("access-code").addEventListener("change", loadModels);
+  $("access-code").addEventListener("input", function () { clearTimeout(codeTimer); codeTimer = setTimeout(loadModels, 700); });
 
   $("sc-form").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -97,7 +105,14 @@
     var fo = $("file-fo").files[0], dtl = $("file-dtl").files[0];
     if (!code()) { msg.textContent = "Enter the access code."; return; }
     if (!fo && !dtl) { msg.textContent = "Choose at least one video."; return; }
-    if (!$("model").value) { msg.textContent = "Choose a model swing (enter the code first)."; return; }
+    if (!$("model").value) {
+      msg.textContent = "Loading model swings…";
+      loadModels().then(function (ok) {
+        if (ok && $("model").value) { $("sc-form").requestSubmit ? $("sc-form").requestSubmit() : $("go").click(); }
+        else { msg.textContent = "Choose a model swing — see the message under the access code."; }
+      });
+      return;
+    }
     msg.textContent = "";
     var fd = new FormData();
     fd.append("model", $("model").value);
