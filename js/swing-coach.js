@@ -2,6 +2,8 @@
 (function () {
   "use strict";
   var API = String(window.SWINGCOACH_ENGINE_URL || "").replace(/\/+$/, "");
+  // Laptop testing: ?engine=local talks straight to the engine on this PC (use with start-server.ps1).
+  if (/[?&]engine=local\b/.test(location.search)) API = "http://127.0.0.1:8600";
   var P_NAMES = ["P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9", "P10"];
   var $ = function (id) { return document.getElementById(id); };
   var state = { job: null, result: null, view: "dtl", P: "P4", imgCache: {} };
@@ -241,8 +243,8 @@
       b.disabled = !ok;
     });
     state.view = views.dtl.you ? "dtl" : views.fo.you ? "fo" : (views.dtl.model ? "dtl" : "fo");
-    state.P = "P4";
-    $("pos").value = 4;
+    state.P = "P7";
+    $("pos").value = 7;
     showPosition();
     $("results").hidden = false;
     $("results").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -298,12 +300,28 @@
       state.imgCache[key] = URL.createObjectURL(b);
       done(state.imgCache[key]);
     }).catch(function () { img.classList.remove("is-loading"); });
-    var rows = res.comparison.rows.filter(function (r) { return r.P === P && r.view === v; });
-    $("pos-rows").innerHTML = rows.length
-      ? "<table class=\"sc-table\">" + rows.map(function (r) {
-          return "<tr><td>" + esc(r.name) + '</td><td class="sc-num">' + fmt(r.student) + " / " + fmt(r.model) + "</td><td>" + badge(r.status, r.quality) + "</td></tr>";
-        }).join("") + '</table><p class="sc-hint">You / model. Units as in the appendix.</p>'
-      : '<p class="sc-hint">No measurement at this position for this view.</p>';
+    var blk = ((res.report && res.report.by_position) || []).filter(function (x) { return x.P === P; })[0];
+    if (!blk) {
+      $("pos-rows").innerHTML = '<p class="sc-hint">No measurement at this position.</p>';
+      $("pos-table").innerHTML = "";
+      return;
+    }
+    var pcls = blk.priority === "Critical" ? "sc-b--out" : blk.priority === "Very high" ? "sc-b--lim" : "sc-b--na";
+    $("pos-rows").innerHTML = '<p><span class="sc-b ' + pcls + '">' + esc(blk.priority) + "</span> " + esc(blk.title) + "</p>" +
+      '<p class="sc-hint">' + blk.n_outside + " outside of " + blk.n_measured + " measured vs " + esc(res.model_name) +
+      ". Band = model value ± tolerance. Coaching order: P7, P6, P5, P1, P4.</p>";
+    var items = blk.items.slice().sort(function (a, b) {
+      var av = (a.view === "Face-on" ? "fo" : "dtl") === v ? 0 : 1, bv = (b.view === "Face-on" ? "fo" : "dtl") === v ? 0 : 1;
+      return av - bv;
+    });
+    $("pos-table").innerHTML = '<table class="sc-table"><tr><th>Measure</th><th>View</th><th>You</th><th>Model</th><th>Difference</th><th>Band</th><th>Result</th></tr>' +
+      items.map(function (it) {
+        var d = it.diff == null ? "—" : (it.diff > 0 ? "+" : "") + fmt(it.diff);
+        return "<tr><td>" + it.n + ". " + esc(it.name) + ' <span class="sc-hint">(' + esc(it.unit) + ")</span>" +
+          (it.note ? '<div class="sc-hint">' + esc(it.note) + "</div>" : "") + "</td><td>" + esc(it.view) +
+          '</td><td class="sc-num">' + fmt(it.you) + '</td><td class="sc-num">' + fmt(it.model) + '</td><td class="sc-num">' + d +
+          '</td><td class="sc-num">' + (it.band ? fmt(it.band[0]) + " to " + fmt(it.band[1]) : "—") + "</td><td>" + badge(it.status, it.quality) + "</td></tr>";
+      }).join("") + "</table>";
   }
   document.querySelectorAll(".sc-seg button").forEach(function (b) {
     b.addEventListener("click", function () { state.view = b.dataset.view; showPosition(); });

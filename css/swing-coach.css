@@ -102,6 +102,7 @@
 .sc-seg button.is-active { background: var(--color-accent); color: var(--color-bg); font-weight: 600; }
 .sc-seg button:disabled { opacity: 0.35; cursor: not-allowed; }
 .sc-posrows { margin-top: var(--space-sm); }
+.sc-postable { margin-top: var(--space-md); }
 
 .sc-tempo__row { display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; font-size: 0.875rem; margin-top: 0.5rem; }
 .sc-you { color: #f2a65a; }
