@@ -235,10 +235,11 @@
     $("r-sections").innerHTML = h.join("");
 
     renderTempo(cmp);
+    renderEE(rep.early_extension, res.views);
     renderAppendix(cmp.rows);
     $("pos-legend").textContent = "";
     var views = res.views;
-    document.querySelectorAll(".sc-seg button").forEach(function (b) {
+    document.querySelectorAll(".sc-seg button[data-view]").forEach(function (b) {
       var v = b.dataset.view, ok = views[v].you || views[v].model;
       b.disabled = !ok;
     });
@@ -274,6 +275,82 @@
     $("tempo").innerHTML = out;
   }
 
+  // ---------------------------------------------------------------- early extension
+  var EE_LEGEND = "Orange dashed = tush line (back of the hips at address), dot = back of the hips now; green = trunk; " +
+    "magenta = trail shoulder–hip–knee–ankle; cyan = arm space (hands to the hip–knee line).";
+  function eeCurveSvg(curve, idx, title, unit) {
+    var W = 460, H = 200, pad = 36, vals = [0];
+    if (idx === 1) vals.push(3);
+    ["you", "model"].forEach(function (k) { (curve[k] || []).forEach(function (p) { vals.push(p[idx]); }); });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    if (hi - lo < 1) { hi += 0.5; lo -= 0.5; }
+    var X = function (t) { return pad + t * (W - pad - 10); };
+    var Y = function (v) { return 20 + (hi - v) / (hi - lo) * (H - 50); };
+    var g = '<svg viewBox="0 0 ' + W + " " + H + '" class="sc-eecurve" role="img" aria-label="' + esc(title) + '">' +
+      '<text x="' + pad + '" y="13" font-size="12" fill="currentColor">' + esc(title) + " (" + unit + ")</text>" +
+      '<line x1="' + pad + '" x2="' + (W - 10) + '" y1="' + Y(0) + '" y2="' + Y(0) + '" stroke="rgba(154,165,180,.4)"/>';
+    if (idx === 1) g += '<line x1="' + pad + '" x2="' + (W - 10) + '" y1="' + Y(3) + '" y2="' + Y(3) + '" stroke="#f2a65a" stroke-dasharray="4 3"/>' +
+      '<text x="' + (W - 12) + '" y="' + (Y(3) - 3) + '" font-size="10" text-anchor="end" fill="#f2a65a">3 % early-move line</text>';
+    [[0, "P4 top", "start"], [0.5, "mid-downswing", "middle"], [1, "P7 impact", "end"]].forEach(function (a) {
+      g += '<text x="' + X(a[0]) + '" y="' + (H - 8) + '" font-size="10" text-anchor="' + a[2] + '" fill="#9aa5b4">' + a[1] + "</text>";
+    });
+    [lo, hi].forEach(function (v) { g += '<text x="' + (pad - 4) + '" y="' + (Y(v) + 3) + '" font-size="10" text-anchor="end" fill="#9aa5b4">' + v.toFixed(0) + "</text>"; });
+    [["you", "#f2a65a", "You"], ["model", "#7aa7e8", "Model"]].forEach(function (s) {
+      var c = curve[s[0]];
+      if (!c || !c.length) return;
+      g += '<polyline fill="none" stroke-width="2.2" stroke="' + s[1] + '" points="' + c.map(function (p) { return X(p[0]).toFixed(1) + "," + Y(p[idx]).toFixed(1); }).join(" ") + '"/>';
+      var l = c[c.length - 1];
+      g += '<text x="' + (X(l[0]) - 4) + '" y="' + (Y(l[idx]) + 14) + '" font-size="11" text-anchor="end" fill="' + s[1] + '">' + s[2] + "</text>";
+    });
+    return g + "</svg>";
+  }
+  function renderEE(ee, views) {
+    var panel = $("ee-panel");
+    if (!ee || ee.verdict === "not assessed" || !(views.dtl.you || views.dtl.model)) { panel.hidden = true; return; }
+    panel.hidden = false;
+    var cls = { clear: "out", mild: "lim", none: "in" }[ee.verdict] || "na";
+    $("ee-summary").innerHTML = '<p><span class="sc-b sc-b--' + cls + '">' + esc(ee.verdict.toUpperCase()) + "</span> " + esc(ee.text) + "</p><ul class=\"sc-eerules\">" +
+      ee.rules.map(function (r) { return "<li>" + (r.met ? "✔ " : "— ") + esc(r.label) + "</li>"; }).join("") + "</ul>" +
+      '<p class="sc-hint">Clear = all three rules met; mild = at least one sign. ' + esc(ee.caution) + "</p>";
+    var rows = "";
+    ee.signs.forEach(function (sg) {
+      if (!sg.rows.length) { rows += "<tr><td><strong>" + esc(sg.label) + '</strong></td><td colspan="6" class="sc-hint">not measured</td></tr>'; return; }
+      sg.rows.forEach(function (d, i) {
+        var sgn = function (v) { return v == null ? "—" : (d.metric !== "arm_space" && v > 0 ? "+" : "") + fmt(v); };
+        var dif = d.you == null || d.model == null ? "—" : ((d.you - d.model) > 0 ? "+" : "") + fmt(d.you - d.model);
+        rows += "<tr><td>" + (i === 0 ? "<strong>" + esc(sg.label) + "</strong>" : "") + "</td><td>" + d.n + ". " + esc(d.name) +
+          ' <span class="sc-hint">(' + esc(d.unit) + ", " + d.P + ')</span></td><td class="sc-num">' + sgn(d.you) + '</td><td class="sc-num">' + sgn(d.model) +
+          '</td><td class="sc-num">' + dif + '</td><td class="sc-num">' + (d.band ? fmt(d.band[0]) + " to " + fmt(d.band[1]) : "—") + "</td><td>" +
+          badge(d.status, d.quality) + (d.bad ? ' <span class="sc-b sc-b--out">sign</span>' : "") + "</td></tr>";
+      });
+    });
+    $("ee-table").innerHTML = '<table class="sc-table"><tr><th>Sign</th><th>Measure</th><th>You</th><th>Model</th><th>Difference</th><th>Band</th><th>Result</th></tr>' + rows + "</table>";
+    var cv = ee.curve || {}, note = [];
+    if (ee.start_you != null) note.push("your hips pass the 3 % line " + Math.round(ee.start_you * 100) + " % of the way down");
+    if (ee.start_model != null) note.push("the model's at " + Math.round(ee.start_model * 100) + " %");
+    else if (cv.model) note.push("the model's hips never pass it");
+    $("ee-curve").innerHTML = (cv.you || cv.model)
+      ? '<div class="sc-eecurves">' + eeCurveSvg(cv, 1, "Hips toward the ball since the top", "% torso") + eeCurveSvg(cv, 2, "Forward bend change vs address", "deg") + "</div>" +
+        (note.length ? '<p class="sc-hint">Timing: ' + note.join("; ") + ".</p>" : "")
+      : "";
+    $("ee-legend").textContent = EE_LEGEND;
+    showEE("P6");
+  }
+  function showEE(P) {
+    document.querySelectorAll("#ee-seg button").forEach(function (b) {
+      b.setAttribute("aria-checked", b.dataset.p === P ? "true" : "false");
+      b.classList.toggle("is-active", b.dataset.p === P);
+    });
+    var key = state.job + "/ee/" + P, img = $("ee-img");
+    img.classList.add("is-loading");
+    var done = function (url) { img.src = url; img.classList.remove("is-loading"); };
+    if (state.imgCache[key]) done(state.imgCache[key]);
+    else api("/jobs/" + state.job + "/ee/" + P).then(function (r) { return r.blob(); }).then(function (b) {
+      state.imgCache[key] = URL.createObjectURL(b); done(state.imgCache[key]);
+    }).catch(function () { img.classList.remove("is-loading"); });
+  }
+  document.querySelectorAll("#ee-seg button").forEach(function (b) { b.addEventListener("click", function () { showEE(b.dataset.p); }); });
+
   function renderAppendix(rows) {
     $("appendix").innerHTML = "<tr><th>#</th><th>Measure</th><th>View · P</th><th>You</th><th>Model</th><th>Band</th><th>Result</th><th>Note</th></tr>" +
       rows.map(function (r) {
@@ -286,7 +363,7 @@
   // ---------------------------------------------------------------- position viewer
   function showPosition() {
     var v = state.view, P = state.P, res = state.result;
-    document.querySelectorAll(".sc-seg button").forEach(function (b) {
+    document.querySelectorAll(".sc-seg button[data-view]").forEach(function (b) {
       b.setAttribute("aria-checked", b.dataset.view === v ? "true" : "false");
       b.classList.toggle("is-active", b.dataset.view === v);
     });
@@ -323,7 +400,7 @@
           '</td><td class="sc-num">' + (it.band ? fmt(it.band[0]) + " to " + fmt(it.band[1]) : "—") + "</td><td>" + badge(it.status, it.quality) + "</td></tr>";
       }).join("") + "</table>";
   }
-  document.querySelectorAll(".sc-seg button").forEach(function (b) {
+  document.querySelectorAll(".sc-seg button[data-view]").forEach(function (b) {
     b.addEventListener("click", function () { state.view = b.dataset.view; showPosition(); });
   });
   $("pos").addEventListener("input", function () { state.P = "P" + this.value; showPosition(); });

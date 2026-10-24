@@ -158,6 +158,19 @@
         <div id="r-safety"></div>
         <div id="r-sections"></div>
 
+        <div class="lab-panel" id="ee-panel" hidden>
+          <p class="lab-panel__title">Early extension check</p>
+          <div id="ee-summary"></div>
+          <div class="sc-seg" role="radiogroup" aria-label="Position" id="ee-seg" style="margin-top:0.75rem">
+            <button type="button" data-p="P1" role="radio">P1 address</button>
+            <button type="button" data-p="P6" role="radio">P6 delivery</button>
+            <button type="button" data-p="P7" role="radio">P7 impact</button>
+          </div>
+          <div class="sc-viewer__img" style="margin-top:0.75rem"><img id="ee-img" alt="Early extension lines on your swing and the model swing"><p id="ee-legend" class="sc-hint"></p></div>
+          <div id="ee-table" class="sc-tablewrap"></div>
+          <div id="ee-curve"></div>
+        </div>
+
         <div class="lab-panel">
           <p class="lab-panel__title">Position by position vs the textbook swing</p>
           <div class="sc-viewer">

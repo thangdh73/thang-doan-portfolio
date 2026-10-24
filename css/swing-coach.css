@@ -134,3 +134,9 @@
 
 .sc-ok { color: var(--color-accent); }
 .sc-bad { color: #f2a65a; }
+
+/* early extension check */
+.sc-eerules { margin: 0.4rem 0 0 1.1rem; color: var(--color-text-muted); font-size: 0.875rem; }
+.sc-eecurves { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-md); margin-top: var(--space-md); }
+.sc-eecurve { width: 100%; height: auto; color: var(--color-text); }
+#ee-table { margin-top: var(--space-md); }
